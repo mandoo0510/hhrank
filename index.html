@@ -5,15 +5,21 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>희희낙락 킬내기 전적 대시보드</title>
 <meta name="description" content="희희낙락 PUBG 킬내기 티어별 전적 · 승률 · KD 랭킹 · 경기 기록">
+<link rel="icon" type="image/png" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<meta property="og:image" content="logo.webp">
+<meta name="theme-color" content="#05060c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0f1012;--bg2:#131416;--card:#18191c;--s1:#1f2024;--s2:#141518;--hov:#25272b;--line:#26282d;--line2:#33363c;--txt:#e8e9ec;--mut:#8b8f98;--dim:#5f636c;--gold:#e8c26a;--gold2:#f3d88f;--red:#e5484d;--blue:#4d7cf0;--green:#4cc38a;--sh:0 1px 0 rgba(255,255,255,.03) inset,0 10px 30px rgba(0,0,0,.25)}
-:root[data-theme="light"]{--bg:#f3f4f6;--bg2:#eceef1;--card:#ffffff;--s1:#f5f6f8;--s2:#eef0f3;--hov:#e9ebef;--line:#e3e5e9;--line2:#d4d7dd;--txt:#17181b;--mut:#6a6f7a;--dim:#9aa0aa;--gold:#b8892a;--gold2:#9a7020;--sh:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06)}
+:root{--bg:#05060c;--bg2:#090b14;--card:rgba(16,19,34,.82);--s1:#151a2c;--s2:#0c0f1c;--hov:#1c2340;--line:#1d2440;--line2:#2b3560;--txt:#e9edfb;--mut:#8a93b5;--dim:#58618a;--gold:#8fb0ff;--gold2:#c2d3ff;--vio:#a88bff;--red:#e5484d;--blue:#4d7cf0;--green:#4cc38a;--sh:0 1px 0 rgba(255,255,255,.03) inset,0 10px 30px rgba(0,0,0,.25)}
+:root[data-theme="light"]{--bg:#f2f4fa;--bg2:#e9edf7;--card:#ffffff;--s1:#f4f6fc;--s2:#edf0f8;--hov:#e6ebf7;--line:#e0e5f1;--line2:#cfd6e8;--txt:#141a2e;--mut:#626b88;--dim:#98a0bb;--gold:#3d63e0;--gold2:#2b4cc0;--vio:#7a55e8;--sh:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06)}
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--txt);font-family:'Noto Sans KR',-apple-system,sans-serif;font-size:13px;min-height:100vh;-webkit-font-smoothing:antialiased}
-body:before{content:"";position:fixed;inset:0 0 auto 0;height:340px;pointer-events:none;background:radial-gradient(800px 260px at 30% -80px,rgba(232,194,106,.08),transparent 70%);z-index:0}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(900px 420px at 18% -120px,rgba(70,110,255,.22),transparent 70%),radial-gradient(700px 380px at 95% 0,rgba(150,100,255,.14),transparent 70%),radial-gradient(1px 1px at 20% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1px 1px at 70% 60%,rgba(255,255,255,.35),transparent),radial-gradient(1px 1px at 40% 80%,rgba(255,255,255,.3),transparent),radial-gradient(1px 1px at 85% 25%,rgba(255,255,255,.4),transparent);z-index:0}
+:root[data-theme="light"] body:before{background:radial-gradient(900px 420px at 18% -120px,rgba(70,110,255,.12),transparent 70%),radial-gradient(700px 380px at 95% 0,rgba(150,100,255,.08),transparent 70%)}
+.card{-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
 ::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:var(--line2);border-radius:8px}::-webkit-scrollbar-track{background:transparent}
 button,input,select{font-family:inherit}
 .wrap{position:relative;z-index:1;display:grid;grid-template-columns:210px minmax(0,1fr) 250px;gap:16px;padding:18px;max-width:1440px;margin:0 auto;align-items:start}
@@ -22,15 +28,15 @@ button,input,select{font-family:inherit}
 /* side */
 .side{position:sticky;top:18px;padding:16px;max-height:calc(100vh - 36px);overflow:auto}
 .brand{display:flex;align-items:center;gap:9px;font-weight:900;font-size:15px;letter-spacing:.01em}
-.dot{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 4px rgba(232,194,106,.14)}
-.sub{color:var(--mut);font-size:11px;margin:5px 0 14px 18px}
+.blogo{width:34px;height:34px;border-radius:50%;box-shadow:0 0 14px rgba(90,140,255,.55)}
+.sub{color:var(--mut);font-size:11px;margin:6px 0 14px 43px}
 .stat{padding:12px;border-radius:11px;background:var(--s1);margin-bottom:10px}
 .row{display:flex;justify-content:space-between;align-items:center;margin:6px 0;color:var(--mut)}
 .row b{color:var(--txt);font-size:14px;font-variant-numeric:tabular-nums}
 .lbl{color:var(--mut);font-size:10.5px;margin:2px 0 7px;letter-spacing:.04em;font-weight:700}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--s2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
 .seg button{border:0;background:none;color:var(--mut);font-size:11.5px;font-weight:700;padding:7px 0;border-radius:7px;cursor:pointer}
-.seg button.on{background:var(--card);color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.seg button.on{background:var(--s1);color:var(--txt);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 .tnav{display:grid;gap:4px}
 .tnav a{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:8px;color:#c9cbd1;text-decoration:none;font-size:12px;font-weight:700;border:1px solid transparent}
 :root[data-theme="light"] .tnav a{color:#3a3d44}
@@ -41,18 +47,24 @@ button,input,select{font-family:inherit}
 .btn:hover{background:var(--hov)}
 .btn.wide{width:100%;margin-top:4px}
 /* main */
-.head{padding:22px 24px;margin-bottom:14px;position:relative;overflow:hidden}
-.head:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(232,194,106,.12),transparent 70%)}
+.head{padding:22px 26px;margin-bottom:14px;position:relative;overflow:hidden;display:flex;align-items:center;gap:24px;background:linear-gradient(120deg,rgba(40,60,160,.35),rgba(16,19,34,.85) 45%,rgba(90,60,190,.25));border-color:var(--line2)}
+:root[data-theme="light"] .head{background:linear-gradient(120deg,rgba(70,110,255,.12),#fff 45%,rgba(150,100,255,.10))}
+.head:after{content:"";position:absolute;right:-80px;top:-80px;width:280px;height:280px;border-radius:50%;background:radial-gradient(circle,rgba(110,150,255,.18),transparent 70%)}
+.hlogo{flex:none;width:118px;height:118px;border-radius:50%;box-shadow:0 0 0 1px rgba(140,170,255,.25),0 0 40px rgba(70,120,255,.55),0 0 90px rgba(120,90,255,.25);animation:glow 4s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 1px rgba(140,170,255,.35),0 0 54px rgba(70,120,255,.75),0 0 110px rgba(120,90,255,.35)}}
+.htxt{position:relative;z-index:1;min-width:0}
+.han{font-size:12px;color:var(--gold2);letter-spacing:.25em;font-weight:700;margin-top:2px}
 .eyebrow{font-size:10px;letter-spacing:.18em;color:var(--mut);font-weight:700}
-.head h1{margin:6px 0 8px;font-size:23px;font-weight:900;letter-spacing:-.01em}
-.head h1 em{font-style:normal;color:var(--gold);font-size:13px;font-weight:700;margin-left:10px;vertical-align:3px;padding:3px 9px;border:1px solid rgba(232,194,106,.35);border-radius:999px}
-.head p{margin:0;color:var(--mut);font-size:12px}
+.head h1{margin:6px 0 4px;font-size:26px;font-weight:900;letter-spacing:-.01em;background:linear-gradient(90deg,#fff,#b9ccff 60%,#c9b6ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="light"] .head h1{background:linear-gradient(90deg,#141a2e,#3d63e0);-webkit-background-clip:text;background-clip:text}
+.head h1 em{font-style:normal;color:var(--gold);-webkit-text-fill-color:var(--gold);font-size:13px;font-weight:700;margin-left:10px;vertical-align:3px;padding:3px 9px;border:1px solid rgba(110,150,255,.35);border-radius:999px}
+.head p{margin:10px 0 0;color:var(--mut);font-size:12px}
 .tools{padding:10px;display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap}
 .tools input{flex:1;min-width:160px;background:var(--s2);border:1px solid var(--line);border-radius:9px;padding:10px 12px 10px 14px;color:var(--txt);font-size:12.5px;outline:none}
 .tools input:focus{border-color:var(--line2)}
 .vtabs{display:flex;background:var(--s2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:2px}
 .vtabs button{border:0;background:none;color:var(--mut);font-size:12px;font-weight:700;padding:7px 14px;border-radius:7px;cursor:pointer}
-.vtabs button.on{background:var(--card);color:var(--gold);box-shadow:0 1px 3px rgba(0,0,0,.18)}
+.vtabs button.on{background:var(--s1);color:var(--gold);box-shadow:0 1px 3px rgba(0,0,0,.18)}
 /* tier board */
 .tier{margin-bottom:14px;overflow:hidden;scroll-margin-top:18px}
 .th{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line)}
@@ -69,18 +81,18 @@ button,input,select{font-family:inherit}
 .nm .rk em{font-style:normal;color:var(--gold);font-weight:700}
 .chips{display:flex;flex-wrap:wrap;gap:4px;min-width:0}
 .chip{width:22px;height:18px;border-radius:4px;font-size:9.5px;font-weight:900;display:flex;align-items:center;justify-content:center;color:#fff;user-select:none;position:relative}
-.chip.W{background:#3f6fe0}.chip.L{background:#c9434a}
+.chip.W{background:linear-gradient(180deg,#5b86ff,#3a63e0)}.chip.L{background:linear-gradient(180deg,#e0525a,#b8373f)}
 .chip.e{background:transparent;border:1px dashed var(--line2)}
 .chip:hover:after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#000;color:#fff;font-weight:500;font-size:11px;padding:5px 8px;border-radius:6px;z-index:5;pointer-events:none}
 .nochip{color:var(--dim);font-size:11.5px}
 .nums{display:flex;gap:6px}
 .num{min-width:58px;padding:7px 9px;text-align:center;border-radius:8px;background:var(--s2);border:1px solid var(--line);font-weight:700;font-size:12.5px;font-variant-numeric:tabular-nums}
 .num span{display:block;color:var(--mut);font-size:9.5px;font-weight:500;margin-bottom:2px}
-.num.hl{color:var(--gold);border-color:rgba(232,194,106,.3)}
+.num.hl{color:var(--gold);border-color:rgba(110,150,255,.3)}
 /* games */
 .rules{display:flex;gap:6px;flex-wrap:wrap;padding:12px 14px 0}
 .pill{cursor:pointer;font-size:11.5px;font-weight:700;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--s1);color:var(--mut)}
-.pill.on{background:rgba(232,194,106,.1);border-color:rgba(232,194,106,.45);color:var(--gold)}
+.pill.on{background:rgba(110,150,255,.1);border-color:rgba(110,150,255,.45);color:var(--gold)}
 .gm{border-top:1px solid var(--line)}
 .gm:first-child{border-top:0}
 .gmh{display:grid;grid-template-columns:70px auto minmax(0,1fr) auto 14px;gap:12px;align-items:center;padding:13px 18px;cursor:pointer}
@@ -88,7 +100,7 @@ button,input,select{font-family:inherit}
 .gd b{display:block;font-size:14px;font-weight:900}
 .gd span{font-size:11px;color:var(--mut)}
 .rb{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;background:var(--s1);border:1px solid var(--line);white-space:nowrap}
-.rb.dk{color:#f08a9a;border-color:rgba(229,72,77,.35)}.rb.hell{color:#f29a5c;border-color:rgba(242,154,92,.35)}.rb.pt{color:#5fc3e4;border-color:rgba(95,195,228,.35)}.rb.yd{color:var(--gold);border-color:rgba(232,194,106,.35)}
+.rb.dk{color:#f08a9a;border-color:rgba(229,72,77,.35)}.rb.hell{color:#f29a5c;border-color:rgba(242,154,92,.35)}.rb.pt{color:#5fc3e4;border-color:rgba(95,195,228,.35)}.rb.yd{color:var(--gold);border-color:rgba(110,150,255,.35)}
 .wn{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#c9cbd1}
 :root[data-theme="light"] .wn{color:#3a3d44}
 .wn b{color:var(--gold)}
@@ -99,7 +111,7 @@ button,input,select{font-family:inherit}
 .gm.open .gmb{display:block}
 .gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
 .gp{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:8px;background:var(--s1);border:1px solid var(--line);font-size:12px;cursor:pointer}
-.gp.w{border-color:rgba(232,194,106,.4);background:rgba(232,194,106,.07)}
+.gp.w{border-color:rgba(110,150,255,.4);background:rgba(110,150,255,.07)}
 .gp b{margin-left:auto;font-variant-numeric:tabular-nums}
 .more{display:block;margin:12px auto 16px}
 /* rank rail */
@@ -111,7 +123,7 @@ button,input,select{font-family:inherit}
 .ri{display:grid;grid-template-columns:22px minmax(0,1fr) auto;gap:9px;align-items:center;padding:8px 10px;border-radius:9px;background:var(--s1);margin-top:6px;cursor:pointer;border:1px solid transparent}
 .ri:hover{border-color:var(--line2)}
 .ri .n{width:22px;height:22px;border-radius:6px;display:flex;align-items:center;justify-content:center;background:var(--s2);color:var(--mut);font-weight:900;font-size:11px;border:1px solid var(--line)}
-.ri:nth-child(-n+3) .n{color:var(--gold);border-color:rgba(232,194,106,.35);background:rgba(232,194,106,.08)}
+.ri:nth-child(-n+3) .n{color:var(--gold);border-color:rgba(110,150,255,.35);background:rgba(110,150,255,.08)}
 .ri b{font-size:12.5px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .ri .s{color:var(--mut);font-size:10px}
 .ri .p{text-align:right;font-weight:900;font-size:12.5px;font-variant-numeric:tabular-nums}
@@ -158,7 +170,7 @@ button,input,select{font-family:inherit}
  .num.m{display:none}
  .gmh{grid-template-columns:56px auto minmax(0,1fr) 12px;padding:12px 14px}
  .gmeta{display:none}
- .head{padding:18px}.head h1{font-size:19px}
+ .head{padding:18px;gap:14px}.head h1{font-size:19px}.hlogo{width:72px;height:72px}.head p{display:none}
  .ms{grid-template-columns:repeat(2,1fr)}
 }
 </style>
@@ -166,8 +178,8 @@ button,input,select{font-family:inherit}
 <body>
 <div class="wrap">
  <aside class="card side">
-  <div class="brand"><span class="dot"></span>희희낙락</div>
-  <div class="sub">PUBG 킬내기 티어별 전적표</div>
+  <div class="brand"><img class="blogo" src="logo.webp" alt="">희희낙락</div>
+  <div class="sub">PUBG 킬내기 전적표</div>
   <div class="stat st1">
    <div class="row"><span>시즌</span><b id="sSeason">-</b></div>
    <div class="row"><span>등록 인원</span><b id="sMem">-</b></div>
@@ -184,9 +196,13 @@ button,input,select{font-family:inherit}
 
  <main>
   <div class="card head">
+   <img class="hlogo" src="logo.webp" alt="희희낙락 로고">
+   <div class="htxt">
    <div class="eyebrow">RANK BOARD</div>
    <h1>희희낙락 킬내기 전적<em id="modeTag">일반</em></h1>
+   <div class="han">喜喜樂樂 · 즐겁고 기쁜 모양</div>
    <p>티어별 유저 전적과 최근 경기 결과를 한눈에 확인하세요. 닉네임을 누르면 상세 기록이 열립니다.</p>
+   </div>
   </div>
   <div class="card tools">
    <input id="q" placeholder="⌕  닉네임 검색">
