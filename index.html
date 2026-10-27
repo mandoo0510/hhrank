@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<title>희희낙락 킬내기 순위표</title>
+<meta name="description" content="희희낙락 PUBG 킬내기 실시간 순위 · 개인 랭킹 · 티어표 · 경기 기록">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+:root{--bg:#0a0d14;--bg2:#0f141f;--card:#141a27;--card2:#1a2132;--line:#232c40;--tx:#e9edf5;--mu:#8a94a8;--ac:#f5b301;--ac2:#ffd45c;--win:#2fd67b;--lose:#ff5c6c}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--bg);color:var(--tx);font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased}
+body{min-height:100vh;background:radial-gradient(1200px 500px at 50% -200px,rgba(245,179,1,.10),transparent 70%),var(--bg)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:26px 0 18px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--ac),#ff7a00);display:grid;place-items:center;font-size:22px;box-shadow:0 6px 24px rgba(245,179,1,.25)}
+.brand h1{font-size:20px;font-weight:800;letter-spacing:-.3px}
+.brand p{font-size:12.5px;color:var(--mu);margin-top:2px}
+.hr{display:flex;align-items:center;gap:8px}
+.chip{font-size:12px;padding:6px 10px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--mu);white-space:nowrap}
+.chip b{color:var(--ac2);font-weight:700}
+.btn{cursor:pointer;border:1px solid var(--line);background:var(--card);color:var(--tx);border-radius:10px;padding:7px 11px;font:inherit;font-size:13px}
+.btn:hover{border-color:#3a4766}
+nav{position:sticky;top:0;z-index:20;background:rgba(10,13,20,.86);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin:0 -16px 20px;padding:0 16px}
+.tabs{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{cursor:pointer;padding:14px 14px 12px;font-size:14.5px;font-weight:600;color:var(--mu);border-bottom:2px solid transparent;white-space:nowrap;background:none;border-top:0;border-left:0;border-right:0;font-family:inherit}
+.tab.on{color:var(--tx);border-bottom-color:var(--ac)}
+.tab .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--lose);margin-right:6px;vertical-align:1px;box-shadow:0 0 0 0 rgba(255,92,108,.6);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(255,92,108,.55)}70%{box-shadow:0 0 0 7px rgba(255,92,108,0)}100%{box-shadow:0 0 0 0 rgba(255,92,108,0)}}
+.bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px}
+.seg{display:inline-flex;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:3px}
+.seg button{cursor:pointer;border:0;background:none;color:var(--mu);font:inherit;font-size:13px;font-weight:600;padding:7px 12px;border-radius:9px}
+.seg button.on{background:var(--card2);color:var(--tx);box-shadow:0 1px 0 rgba(255,255,255,.04) inset}
+.sp{flex:1}
+input.q,select.q{background:var(--bg2);border:1px solid var(--line);color:var(--tx);border-radius:10px;padding:8px 12px;font:inherit;font-size:13.5px;outline:none}
+input.q{width:190px}
+input.q:focus{border-color:#4a5a80}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px}
+.h2{font-size:15px;font-weight:700;margin:22px 0 12px;display:flex;align-items:center;gap:8px}
+.h2 small{font-size:12px;color:var(--mu);font-weight:500}
+.empty{padding:50px 20px;text-align:center;color:var(--mu);font-size:14px}
+.empty .big{font-size:34px;margin-bottom:10px}
+/* live */
+.lsum{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+.stat{padding:14px 16px}
+.stat .k{font-size:12px;color:var(--mu)}
+.stat .v{font-size:18px;font-weight:800;margin-top:4px}
+.teams{display:grid;gap:10px}
+.team{display:grid;grid-template-columns:52px 1fr 220px;align-items:center;gap:14px;padding:14px 16px;position:relative;overflow:hidden}
+.team::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc,#555)}
+.rk{font-size:22px;font-weight:900;text-align:center;color:var(--mu)}
+.rk.r1{color:#ffd45c}.rk.r2{color:#d6dce8}.rk.r3{color:#e3a36b}
+.tn{font-weight:800;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.mem{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.mem span{font-size:12px;padding:3px 8px;border-radius:7px;background:var(--bg2);border:1px solid var(--line);color:#c9d0de}
+.mem span.lead{border-color:rgba(245,179,1,.4);color:var(--ac2)}
+.sc{text-align:right}
+.sc .tot{font-size:24px;font-weight:900;letter-spacing:-.5px}
+.sc .tot small{font-size:13px;color:var(--mu);font-weight:600}
+.prog{height:7px;background:var(--bg2);border-radius:99px;overflow:hidden;margin:7px 0 6px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--tc,#888),var(--ac));border-radius:99px;transition:width .6s}
+.sub{font-size:11.5px;color:var(--mu);display:flex;gap:9px;justify-content:flex-end;flex-wrap:wrap}
+.done{font-size:11px;font-weight:800;color:#111;background:var(--ac);padding:2px 7px;border-radius:6px}
+/* ranking */
+.podium{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.pod{padding:18px;cursor:pointer;position:relative;overflow:hidden;transition:transform .15s}
+.pod:hover{transform:translateY(-2px)}
+.pod .m{font-size:26px}
+.pod .nm{font-size:17px;font-weight:800;margin-top:6px}
+.pod .big{font-size:28px;font-weight:900;margin-top:8px;letter-spacing:-.5px}
+.pod .big small{font-size:12px;color:var(--mu);font-weight:600;margin-left:4px}
+.pod .ln{font-size:12px;color:var(--mu);margin-top:4px}
+.pod.p1{background:linear-gradient(160deg,rgba(245,179,1,.16),var(--card) 60%);border-color:rgba(245,179,1,.35)}
+table{width:100%;border-collapse:collapse}
+.tbl{overflow:hidden}
+.tbl th{font-size:12px;color:var(--mu);font-weight:600;text-align:right;padding:11px 12px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+.tbl th.l,.tbl td.l{text-align:left}
+.tbl th.on{color:var(--ac2)}
+.tbl td{padding:11px 12px;text-align:right;font-size:14px;border-bottom:1px solid rgba(35,44,64,.6);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl tr.row{cursor:pointer}
+.tbl tr.row:hover td{background:var(--card2)}
+.tbl tr:last-child td{border-bottom:0}
+.n{color:var(--mu);font-weight:700;width:46px}
+.nm2{font-weight:700}
+.tier{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:7px;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent);white-space:nowrap}
+.wr{display:inline-flex;align-items:center;gap:8px;justify-content:flex-end}
+.wr i{display:inline-block;width:46px;height:5px;border-radius:9px;background:var(--bg2);overflow:hidden;position:relative}
+.wr i b{position:absolute;left:0;top:0;bottom:0;background:var(--win);border-radius:9px}
+.scroll{overflow-x:auto}
+/* tiers */
+.tiers{display:grid;gap:12px}
+.tg{padding:0;overflow:hidden}
+.tgh{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,color-mix(in srgb,var(--c) 16%,transparent),transparent 70%)}
+.tgh .t{font-weight:800;font-size:15px;color:var(--c)}
+.tgh .cnt{font-size:12px;color:var(--mu)}
+.tgh .pen{margin-left:auto;font-size:12px;color:var(--mu)}
+.pl{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;padding:12px}
+.pc{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:10px 12px;cursor:pointer;transition:border-color .15s}
+.pc:hover{border-color:color-mix(in srgb,var(--c) 55%,transparent)}
+.pc .a{font-weight:700;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pc .b{display:flex;gap:9px;white-space:nowrap;font-size:12px;color:var(--mu);margin-top:4px}
+.pc .b em{font-style:normal;color:#cfd6e4;font-weight:600}
+.pc.no{opacity:.5}
+/* games */
+.rules{display:flex;gap:6px;flex-wrap:wrap}
+.pill{cursor:pointer;font:inherit;font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;border:1px solid var(--line);background:var(--bg2);color:var(--mu)}
+.pill.on{background:rgba(245,179,1,.12);border-color:rgba(245,179,1,.45);color:var(--ac2)}
+.games{display:grid;gap:10px}
+.gm{overflow:hidden}
+.gmh{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer}
+.gd{min-width:62px}
+.gd .d{font-size:15px;font-weight:800}
+.gd .t{font-size:12px;color:var(--mu)}
+.rb{font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:7px;background:var(--bg2);border:1px solid var(--line);color:#cfd6e4;white-space:nowrap}
+.rb.dk{color:#ff9fb0;border-color:rgba(255,92,108,.35)}
+.rb.hell{color:#ff8a4c;border-color:rgba(255,138,76,.35)}
+.rb.pt{color:#7bdff2;border-color:rgba(123,223,242,.35)}
+.wn{flex:1;min-width:0;font-size:13.5px;color:#cfd6e4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wn b{color:var(--ac2)}
+.gmeta{font-size:12px;color:var(--mu);white-space:nowrap}
+.chev{color:var(--mu);transition:transform .2s;font-size:12px}
+.gm.open .chev{transform:rotate(90deg)}
+.gmb{display:none;border-top:1px solid var(--line);padding:12px 16px 14px}
+.gm.open .gmb{display:block}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:6px}
+.gp{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:9px;background:var(--bg2);border:1px solid var(--line);cursor:pointer;font-size:13px}
+.gp.w{border-color:rgba(245,179,1,.4);background:rgba(245,179,1,.07)}
+.gp .k{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums}
+.gp .o{color:var(--mu);font-size:11.5px;width:18px}
+.more{display:block;margin:14px auto 0}
+/* modal */
+.ov{position:fixed;inset:0;background:rgba(3,5,10,.7);backdrop-filter:blur(4px);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:40px 16px;overflow-y:auto}
+.ov.on{display:flex}
+.md{width:100%;max-width:560px;background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;animation:pop .18s ease-out}
+@keyframes pop{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.mdh{padding:20px 20px 16px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--line)}
+.mdh h3{font-size:20px;font-weight:800}
+.x{margin-left:auto;cursor:pointer;background:none;border:0;color:var(--mu);font-size:22px;line-height:1}
+.ms{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+.ms>div{background:var(--card);padding:14px 10px;text-align:center}
+.ms .k{font-size:11.5px;color:var(--mu)}
+.ms .v{font-size:18px;font-weight:800;margin-top:3px}
+.mh{max-height:46vh;overflow-y:auto;padding:8px 12px 14px}
+.hi{display:flex;align-items:center;gap:10px;padding:9px 8px;border-bottom:1px solid rgba(35,44,64,.6);font-size:13.5px}
+.hi:last-child{border-bottom:0}
+.hi .r{font-size:11.5px;font-weight:800;width:24px;height:24px;border-radius:7px;display:grid;place-items:center}
+.hi .r.w{background:rgba(47,214,123,.15);color:var(--win)}
+.hi .r.l{background:rgba(255,92,108,.12);color:var(--lose)}
+.hi .k{margin-left:auto;font-weight:800}
+.foot{margin-top:40px;text-align:center;font-size:12px;color:#5d6780}
+.load{padding:80px 0;text-align:center;color:var(--mu)}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--ac);border-radius:50%;margin:0 auto 14px;animation:sp 0.8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.hide{display:none!important}
+@media (max-width:760px){
+ .lsum{grid-template-columns:repeat(2,1fr)}
+ .team{grid-template-columns:38px 1fr;gap:10px}
+ .team .sc{grid-column:1/-1;text-align:left}
+ .sub{justify-content:flex-start}
+ .podium{grid-template-columns:1fr}
+ .pod{padding:14px 16px;display:flex;align-items:center;gap:12px}
+ .pod .nm{margin-top:0}.pod .big{margin:0 0 0 auto;font-size:22px}
+ .hide-m{display:none}
+ input.q{width:100%}
+ .bar .sp{display:none}
+ header{padding-top:18px}
+ .brand p{display:none}
+ .brand h1{font-size:17px;white-space:nowrap}
+ .gmeta{display:none}
+ .ms{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+ <header>
+  <div class="brand"><div class="logo">🍗</div><div><h1>희희낙락 킬내기</h1><p>PUBG 킬내기 순위 · 티어 · 경기 기록</p></div></div>
+  <div class="hr"><span class="chip" id="season">시즌</span><button class="btn" id="rf" title="새로고침">↻</button></div>
+ </header>
+ <nav><div class="tabs">
+  <button class="tab on" data-t="live"><span class="dot"></span>실시간 순위</button>
+  <button class="tab" data-t="rank">개인 랭킹</button>
+  <button class="tab" data-t="tier">티어표</button>
+  <button class="tab" data-t="games">경기 기록</button>
+ </div></nav>
+
+ <div class="bar hide" id="modebar">
+  <div class="seg" id="mode"><button data-m="base" class="on">일반</button><button data-m="dk">대꼴룰</button><button data-m="all">통합</button></div>
+  <span class="sp"></span>
+  <input class="q" id="q" placeholder="닉네임 검색">
+ </div>
+
+ <section id="v-live"><div class="load"><div class="spin"></div>불러오는 중…</div></section>
+ <section id="v-rank" class="hide"></section>
+ <section id="v-tier" class="hide"></section>
+ <section id="v-games" class="hide"></section>
+
+ <div class="foot" id="foot">희희낙락 킬내기 · 기록은 티어표 시트 기준으로 자동 갱신돼요</div>
+</div>
+
+<div class="ov" id="ov"><div class="md" id="md"></div></div>
+
+<script>
+var D=null,LV=null,TAB='live',MODE='base',SORT='wr',MINP=1,RULE='전체',GLIM=20,Q='';
+var TIERS=['갓티어','1티어 상','1티어 하','2티어 상','2티어 하','3티어','4티어','BABY티어','미배정'];
+var TC={'갓티어':'#ff4d6d','1티어 상':'#ff9f1c','1티어 하':'#ffc46b','2티어 상':'#2ed3b7','2티어 하':'#7bdff2','3티어':'#9b8cff','4티어':'#aab4c8','BABY티어':'#f59bd0','미배정':'#6b7489'};
+var PEN={'갓티어':-6,'1티어 상':-2,'BABY티어':3};
+function $(id){return document.getElementById(id)}
+function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function tierOf(t){t=String(t||'').trim(); if(!t) return '미배정'; if(TC[t]) return t; for(var i=0;i<TIERS.length;i++){ if(t.replace(/\s/g,'')==TIERS[i].replace(/\s/g,'')) return TIERS[i]; } return t;}
+function tchip(t){t=tierOf(t);return '<span class="tier" style="--c:'+(TC[t]||'#8a94a8')+'">'+esc(t)+'</span>'}
+function f1(x){return (Math.round(x*100)/100).toFixed(2)}
+function pct(x){return (Math.round(x*1000)/10).toFixed(1)+'%'}
+function teamColor(i){return 'hsl('+((i*137.5)%360)+',70%,58%)'}
+
+var API='https://script.google.com/macros/s/AKfycbyHfQC9_hT0G_H6OTzXVVCelz2K875S161yXT2gbxy-DNxpmWdnzkRycx8ZF8Bikkke/exec';
+var JN=0;
+function run(fn,ok){
+ var k=fn=='hhLive'?'live':'data', done=false, cb='__hh'+(++JN), sc=document.createElement('script');
+ var t=setTimeout(function(){ fin(null); },20000);
+ function fin(d){ if(done) return; done=true; clearTimeout(t); try{delete window[cb]}catch(_){window[cb]=undefined} if(sc.parentNode) sc.parentNode.removeChild(sc); ok(d&&!d.error?d:null); }
+ window[cb]=function(d){ fin(d); };
+ sc.onerror=function(){ fin(null); };
+ sc.src=API+'?v=api&k='+k+'&callback='+cb+'&_='+Date.now();
+ document.head.appendChild(sc);
+}
+function loadData(cb){ run('hhData',function(d){ if(d){D=d; prep();} cb&&cb(); }); }
+function loadLive(cb){ run('hhLive',function(d){ if(d) LV=d; cb&&cb(); }); }
+
+// ---------- data prep ----------
+var M={};
+function prep(){
+ $('season').innerHTML='<b>'+esc(D.season||'시즌')+'</b> · '+esc(D.start||'')+' ~';
+ M.base=build(D.base.g,D.base.t); M.dk=build(D.dk.g,D.dk.t);
+ var all=D.base.g.concat(D.dk.g); M.all=build(all,D.base.t);
+}
+function build(games,tiers){
+ games=games.slice().sort(function(a,b){return b.t-a.t});
+ var P={};
+ games.forEach(function(g){
+  var sorted=g.p.slice().sort(function(a,b){return b[1]-a[1]});
+  g.p.forEach(function(x){ var n=x[0]; var p=P[n]||(P[n]={n:n,g:0,w:0,k:0,h:[]}); p.g++; p.w+=x[2]; p.k+=x[1]; p.h.push({g:g,k:x[1],w:x[2],o:sorted.indexOf(x)+1,c:g.p.length}); });
+ });
+ var list=Object.keys(P).map(function(n){var p=P[n]; p.l=p.g-p.w; p.wr=p.g?p.w/p.g:0; p.kd=p.g?p.k/p.g:0; p.t=tierOf(tiers[n]?tiers[n][0]:''); p.best=Math.max.apply(null,p.h.map(function(h){return h.k})); return p;});
+ return {games:games,P:P,list:list,tiers:tiers};
+}
+
+// ---------- live ----------
+function rLive(){
+ var el=$('v-live');
+ if(!LV){ el.innerHTML='<div class="card empty"><div class="big">📡</div>실시간 정보를 불러오지 못했어요</div>'; return; }
+ var ts=LV.teams.slice().sort(function(a,b){ var ra=a.goal?a.s/a.goal:0, rb=b.goal?b.s/b.goal:0; return (b.s-a.s)||(rb-ra); });
+ var active=ts.filter(function(t){return t.m.length});
+ var h='<div class="lsum">'+
+  '<div class="card stat"><div class="k">📜 룰</div><div class="v">'+esc(LV.rule||'-')+'</div></div>'+
+  '<div class="card stat"><div class="k">🎯 목표 점수</div><div class="v">'+esc(LV.goal||'-')+'</div></div>'+
+  '<div class="card stat"><div class="k">👥 참가 팀</div><div class="v">'+active.length+'팀</div></div>'+
+  '<div class="card stat"><div class="k">⏰ 종료</div><div class="v" style="font-size:14px;line-height:1.35">'+esc(String(LV.end||'').replace('⏰ ',''))+'</div></div></div>';
+ if(!active.length){ el.innerHTML=h+'<div class="card empty"><div class="big">🌙</div>지금은 진행 중인 경기가 없어요<br><span style="font-size:12.5px">경기가 시작되면 이곳에 팀별 점수가 실시간으로 보여요</span></div>'+upd(); return; }
+ h+='<div class="teams">';
+ ts.forEach(function(t,i){
+  if(!t.m.length && !t.s) return;
+  var p=t.goal?Math.max(0,Math.min(1,t.s/t.goal)):0, c=teamColor(t.i);
+  h+='<div class="card team" style="--tc:'+c+'"><div class="rk '+(i<3?'r'+(i+1):'')+'">'+(i+1)+'</div>'+
+   '<div><div class="tn">'+esc(t.n)+(t.goal&&t.s>=t.goal?' <span class="done">목표 달성</span>':'')+'</div><div class="mem">'+t.m.map(function(m,j){return '<span class="'+(j==0?'lead':'')+'">'+(j==0?'👑 ':'')+esc(m)+'</span>'}).join('')+'</div></div>'+
+   '<div class="sc"><div class="tot">'+t.s+' <small>/ '+(t.goal||'-')+'</small></div><div class="prog"><i style="width:'+(p*100)+'%"></i></div>'+
+   '<div class="sub"><span>킬 '+t.k+'</span><span>🍗 '+t.c+'</span><span>TOP '+t.tp+'</span><span>핸디 '+t.h+'</span><span>'+Math.round(p*100)+'%</span></div></div></div>';
+ });
+ el.innerHTML=h+'</div>'+upd();
+}
+function upd(){return '<div class="h2" style="justify-content:center;margin-top:16px"><small>'+(LV&&LV.at?LV.at+' 기준 · ':'')+'30초마다 자동 갱신</small></div>'}
+
+// ---------- ranking ----------
+var SORTS=[['wr','승률'],['kd','평균 KD'],['k','전체 킬'],['g','참여'],['w','승']];
+function sortList(l){
+ var k=SORT; return l.slice().sort(function(a,b){ return (b[k]-a[k])||(b.g-a.g)||(b.kd-a.kd)||a.n.localeCompare(b.n); });
+}
+function rRank(){
+ var m=M[MODE]; var el=$('v-rank');
+ if(!m||!m.list.length){ el.innerHTML='<div class="card empty"><div class="big">📭</div>아직 기록이 없어요</div>'; return; }
+ var l=sortList(m.list.filter(function(p){return p.g>=MINP}));
+ var rankIdx={}; l.forEach(function(p,i){rankIdx[p.n]=i+1});
+ var lab={wr:'승률',kd:'평균 KD',k:'전체 킬',g:'참여',w:'승'}[SORT];
+ function val(p){return SORT=='wr'?pct(p.wr):SORT=='kd'?f1(p.kd):p[SORT]}
+ var h='<div class="bar"><div class="seg" id="sortseg">'+SORTS.map(function(s){return '<button data-s="'+s[0]+'" class="'+(SORT==s[0]?'on':'')+'">'+s[1]+'</button>'}).join('')+'</div><span class="sp"></span>'+
+  '<select class="q" id="minp">'+[1,3,5,10].map(function(n){return '<option value="'+n+'"'+(MINP==n?' selected':'')+'>'+(n==1?'전체 인원':'참여 '+n+'판 이상')+'</option>'}).join('')+'</select></div>';
+ if(!Q){
+  h+='<div class="podium">'+l.slice(0,3).map(function(p,i){return '<div class="card pod '+(i==0?'p1':'')+'" data-p="'+esc(p.n)+'"><div class="m">'+['🥇','🥈','🥉'][i]+'</div><div><div class="nm">'+esc(p.n)+'</div><div class="ln">'+tchip(p.t)+' · '+p.g+'판 '+p.w+'승</div></div><div class="big">'+val(p)+'<small>'+lab+'</small></div></div>'}).join('')+'</div>';
+ }
+ var rows=l.filter(function(p){return !Q||p.n.toLowerCase().indexOf(Q)>=0});
+ h+='<div class="card tbl scroll"><table><thead><tr><th class="l">#</th><th class="l">닉네임</th><th class="l hide-m">티어</th>'+
+  [['g','참여'],['w','승'],['wr','승률'],['kd','평균 KD'],['k','전체 킬']].map(function(c){return '<th data-s="'+c[0]+'" class="'+(SORT==c[0]?'on':'')+(c[0]=='w'?' hide-m':'')+'">'+c[1]+(SORT==c[0]?' ↓':'')+'</th>'}).join('')+
+  '</tr></thead><tbody>';
+ rows.forEach(function(p){
+  h+='<tr class="row" data-p="'+esc(p.n)+'"><td class="l n">'+rankIdx[p.n]+'</td><td class="l nm2">'+esc(p.n)+'</td><td class="l hide-m">'+tchip(p.t)+'</td><td>'+p.g+'</td><td class="hide-m">'+p.w+'</td>'+
+   '<td><span class="wr"><i><b style="width:'+(p.wr*100)+'%"></b></i>'+pct(p.wr)+'</span></td><td>'+f1(p.kd)+'</td><td>'+p.k+'</td></tr>';
+ });
+ if(!rows.length) h+='<tr><td colspan="8" class="empty">검색 결과가 없어요</td></tr>';
+ el.innerHTML=h+'</tbody></table></div>';
+}
+
+// ---------- tiers ----------
+function rTier(){
+ var m=M[MODE]; var el=$('v-tier');
+ var tiers=MODE=='dk'?D.dk.t:D.base.t; var groups={};
+ var names=Object.keys(tiers); m.list.forEach(function(p){ if(names.indexOf(p.n)<0) names.push(p.n); });
+ names.forEach(function(n){ var t=tierOf(tiers[n]?tiers[n][0]:''); (groups[t]=groups[t]||[]).push(n); });
+ var order=TIERS.concat(Object.keys(groups).filter(function(t){return TIERS.indexOf(t)<0}));
+ var h='<div class="tiers">';
+ order.forEach(function(t){
+  var g=groups[t]; if(!g||!g.length) return;
+  var ps=g.map(function(n){return m.P[n]||{n:n,g:0,w:0,k:0,kd:0,wr:0}}).filter(function(p){return !Q||p.n.toLowerCase().indexOf(Q)>=0});
+  if(!ps.length) return;
+  ps.sort(function(a,b){return (b.g?1:0)-(a.g?1:0)||b.kd-a.kd||b.wr-a.wr||a.n.localeCompare(b.n)});
+  var rec=ps.filter(function(p){return p.g}).length;
+  var pen=tiers[g[0]]?tiers[g[0]][1]:'';
+  h+='<div class="card tg" style="--c:'+(TC[t]||'#8a94a8')+'"><div class="tgh"><span class="t">'+esc(t)+'</span><span class="cnt">'+ps.length+'명 · 기록 '+rec+'명</span>'+(pen!==''&&pen!=null&&String(pen)!='0'?'<span class="pen">핸디 '+(Number(pen)>0?'+':'')+esc(pen)+'</span>':'')+'</div><div class="pl">'+
+   ps.map(function(p){return '<div class="pc '+(p.g?'':'no')+'" data-p="'+esc(p.n)+'"><div class="a">'+esc(p.n)+'</div><div class="b">'+(p.g?'<span>KD <em>'+f1(p.kd)+'</em></span><span>승률 <em>'+pct(p.wr)+'</em></span><span>'+p.g+'판</span>':'<span>기록 없음</span>')+'</div></div>'}).join('')+'</div></div>';
+ });
+ el.innerHTML=h+'</div>';
+}
+
+// ---------- games ----------
+function ruleCls(r){return r.indexOf('대꼴')>=0?'dk':r.indexOf('지옥')>=0?'hell':r.indexOf('포인트')>=0?'pt':''}
+function gDate(g){ var m=String(g.l).match(/^(\S+)\s+(\S+)/); return m?[m[1],m[2]]:[g.l,'']; }
+function rGames(){
+ var m=M[MODE]; var el=$('v-games');
+ var rules=['전체']; m.games.forEach(function(g){ var r=g.r||'기타'; if(rules.indexOf(r)<0) rules.push(r); });
+ if(rules.indexOf(RULE)<0) RULE='전체';
+ var gs=m.games.filter(function(g){ return (RULE=='전체'||(g.r||'기타')==RULE) && (!Q||g.p.some(function(x){return x[0].toLowerCase().indexOf(Q)>=0})); });
+ var h='<div class="bar"><div class="rules" id="rules">'+rules.map(function(r){return '<button class="pill '+(RULE==r?'on':'')+'" data-r="'+esc(r)+'">'+esc(r)+'</button>'}).join('')+'</div><span class="sp"></span><span class="chip">'+gs.length+'경기</span></div><div class="games">';
+ if(!gs.length) h+='<div class="card empty"><div class="big">📭</div>경기 기록이 없어요</div>';
+ gs.slice(0,GLIM).forEach(function(g,gi){
+  var d=gDate(g), ps=g.p.slice().sort(function(a,b){return (b[2]-a[2])||(b[1]-a[1])});
+  var win=ps.filter(function(x){return x[2]}), tk=g.p.reduce(function(s,x){return s+x[1]},0);
+  var top=g.p.slice().sort(function(a,b){return b[1]-a[1]})[0];
+  h+='<div class="card gm"><div class="gmh"><div class="gd"><div class="d">'+esc(d[0])+'</div><div class="t">'+esc(d[1])+'</div></div>'+
+   '<span class="rb '+ruleCls(g.r||'')+'">'+esc(g.r||'기타')+'</span>'+
+   '<div class="wn">'+(win.length?'🍗 <b>'+win.map(function(x){return esc(x[0])}).join(', ')+'</b>':'<span style="color:var(--mu)">우승팀 정보 없음</span>')+'</div>'+
+   '<span class="gmeta">'+g.p.length+'명 · 총 '+tk+'킬 · MVP '+esc(top?top[0]:'-')+' '+(top?top[1]:'')+'</span><span class="chev">▶</span></div>'+
+   '<div class="gmb"><div class="gl">'+ps.map(function(x,i){return '<div class="gp '+(x[2]?'w':'')+'" data-p="'+esc(x[0])+'"><span class="o">'+(x[2]?'🍗':'')+'</span>'+esc(x[0])+'<span class="k">'+x[1]+'킬</span></div>'}).join('')+'</div></div></div>';
+ });
+ h+='</div>';
+ if(gs.length>GLIM) h+='<button class="btn more" id="more">더 보기 ('+(gs.length-GLIM)+'경기 남음)</button>';
+ el.innerHTML=h;
+}
+
+// ---------- player modal ----------
+function openP(n){
+ var m=M[MODE]; var p=m.P[n]; var t=tierOf((MODE=='dk'?D.dk.t:D.base.t)[n]?(MODE=='dk'?D.dk.t:D.base.t)[n][0]:'');
+ var h='<div class="mdh"><div><h3>'+esc(n)+'</h3><div style="margin-top:6px;display:flex;gap:6px;align-items:center">'+tchip(t)+'<span class="chip">'+({base:'일반',dk:'대꼴룰',all:'통합'})[MODE]+' 기록</span></div></div><button class="x" id="xx">×</button></div>';
+ if(!p){ h+='<div class="empty">이 모드에는 기록이 없어요</div>'; }
+ else{
+  h+='<div class="ms"><div><div class="k">참여</div><div class="v">'+p.g+'판</div></div><div><div class="k">승 / 패</div><div class="v">'+p.w+' / '+p.l+'</div></div><div><div class="k">승률</div><div class="v">'+pct(p.wr)+'</div></div><div><div class="k">평균 KD</div><div class="v">'+f1(p.kd)+'</div></div></div>'+
+   '<div class="ms" style="border-top:1px solid var(--line)"><div><div class="k">전체 킬</div><div class="v">'+p.k+'</div></div><div><div class="k">최고 킬</div><div class="v">'+p.best+'</div></div><div><div class="k">순위 (승률)</div><div class="v">'+rankOf(m,p,'wr')+'</div></div><div><div class="k">순위 (KD)</div><div class="v">'+rankOf(m,p,'kd')+'</div></div></div>'+
+   '<div class="mh">'+p.h.map(function(x){var d=gDate(x.g);return '<div class="hi"><span class="r '+(x.w?'w':'l')+'">'+(x.w?'승':'패')+'</span><span>'+esc(d[0])+' '+esc(d[1])+'</span><span class="rb '+ruleCls(x.g.r||'')+'">'+esc(x.g.r||'기타')+'</span><span class="k">'+x.k+'킬</span></div>'}).join('')+'</div>';
+ }
+ $('md').innerHTML=h; $('ov').classList.add('on'); $('xx').onclick=closeP;
+}
+function rankOf(m,p,k){ var l=m.list.slice().sort(function(a,b){return (b[k]-a[k])||(b.g-a.g)}); return (l.indexOf(p)+1)+'위'; }
+function closeP(){ $('ov').classList.remove('on'); }
+
+// ---------- routing ----------
+function render(){
+ ['live','rank','tier','games'].forEach(function(t){ $('v-'+t).classList.toggle('hide',t!=TAB); });
+ $('modebar').classList.toggle('hide',TAB=='live');
+ if(TAB=='live') return rLive();
+ if(!D){ $('v-'+TAB).innerHTML='<div class="load"><div class="spin"></div>불러오는 중…</div>'; return; }
+ if(TAB=='rank') rRank(); else if(TAB=='tier') rTier(); else rGames();
+}
+document.addEventListener('click',function(e){
+ var t=e.target.closest('[data-t]'); if(t){ TAB=t.dataset.t; document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b==t)}); GLIM=20; render(); window.scrollTo({top:0}); try{history.replaceState(null,'','#'+TAB)}catch(_){} return; }
+ var mo=e.target.closest('#mode [data-m]'); if(mo){ MODE=mo.dataset.m; document.querySelectorAll('#mode button').forEach(function(b){b.classList.toggle('on',b==mo)}); GLIM=20; render(); return; }
+ var s=e.target.closest('[data-s]'); if(s){ SORT=s.dataset.s; rRank(); return; }
+ var r=e.target.closest('[data-r]'); if(r){ RULE=r.dataset.r; GLIM=20; rGames(); return; }
+ if(e.target.id=='more'){ GLIM+=20; rGames(); return; }
+ var p=e.target.closest('[data-p]'); if(p){ openP(p.dataset.p); return; }
+ var gh=e.target.closest('.gmh'); if(gh){ gh.parentNode.classList.toggle('open'); return; }
+ if(e.target.id=='ov') closeP();
+});
+document.addEventListener('change',function(e){ if(e.target.id=='minp'){ MINP=+e.target.value; rRank(); } });
+document.addEventListener('keydown',function(e){ if(e.key=='Escape') closeP(); });
+$('q').addEventListener('input',function(){ Q=this.value.trim().toLowerCase(); render(); });
+$('rf').onclick=function(){ this.disabled=true; var b=this; var n=2; function d(){ if(--n==0){ b.disabled=false; render(); } } loadData(d); loadLive(d); };
+
+(function init(){
+ var h=(location.hash||'').replace('#',''); if(['live','rank','tier','games'].indexOf(h)>=0){ TAB=h; document.querySelectorAll('.tab').forEach(function(b){b.classList.toggle('on',b.dataset.t==h)}); }
+ loadLive(function(){ if(TAB=='live') render(); });
+ loadData(function(){ render(); });
+ setInterval(function(){ if(document.hidden) return; loadLive(function(){ if(TAB=='live') rLive(); }); },30000);
+ setInterval(function(){ if(document.hidden) return; loadData(function(){ if(TAB!='live' && !$('ov').classList.contains('on')) render(); }); },180000);
+})();
+</script>
+</body>
+</html>
