@@ -514,8 +514,8 @@ function makeTeams(mode){TB.teams=[];var N=teamCount(),names=TB.sel.slice();TB.n
  TB.teams=T;rTeam()}
 function knownNames(){var t=tTiers(),s={};Object.keys(t).forEach(function(n){s[n]=1});(M.base?M.base.rec:[]).forEach(function(p){s[p.n]=1});(M.dk?M.dk.rec:[]).forEach(function(p){s[p.n]=1});return Object.keys(s)}
 function parsePaste(txt){var names=knownNames(),low={};names.forEach(function(n){low[n.toLowerCase().replace(/\s+/g,'')]=n});var byLen=names.slice().sort(function(a,b){return b.length-a.length});
- var tierWords=/(갓티어|[1-4]?티어\s*[상하]?|BABY티어|베이비|미배정|팀장|팀원\d*|TEAM\s*\d+|\d+\s*팀|님$|씨$)/gi;
- var src=String(txt||'').split(/\r?\n/).filter(function(l){return l.indexOf('관전')<0}).join('\n');
+ var tierWords=/(관전|갓티어|[1-4]?티어\s*[상하]?|BABY티어|베이비|미배정|팀장|팀원\d*|TEAM\s*\d+|\d+\s*팀|님$|씨$)/gi;
+ var src=String(txt||'');
  var toks=src.replace(/[\u{1F000}-\u{1FFFF}☀-➿️‍]/gu,' ').replace(/(^|[\s,，、])@?[^\s\/,，、]*\/([^\/\n]+?)\/[^\s\/,，、]*(?=[\s,，、]|$)/g,' $2 ').split(/[\n\r,，、/|·•\t;:]+|\s{1,}/);
  var found=[],miss=[];function add(n){if(found.indexOf(n)<0)found.push(n)}
  toks.forEach(function(raw){var t=raw.replace(tierWords,'').replace(/^[\s\-\*\d\.\)\]\[(#]+/,'').replace(/[()\[\]{}<>"'`~!?.。…★☆♡♥-]+/g,'').trim();if(!t)return;
@@ -535,7 +535,7 @@ function rTeam(){
  var h='<section class="card tier"><div class="th"><h2 style="color:var(--gold)">팀짜기</h2><span class="cnt">점수판 룰: '+esc(TB.rule||'-')+' · '+(TB.rule=='대꼴룰'?'대꼴룰':'일반')+' 티어 기준</span></div>';
  // 1. roster
  h+='<div class="tb"><h3>1. 참가자 명단 <small>'+TB.sel.length+'명</small></h3>';
- h+='<div class="paste"><textarea id="tPasteTxt" placeholder="📋 참가자 명단을 그대로 붙여넣으세요 · @나이/이름/게임ID 형식은 이름만 인식 · \'관전\'이 들어간 줄은 제외">'+esc(TB.ptxt||'')+'</textarea><div class="pbtn"><span class="bal">등록된 닉네임과 맞춰서 티어별로 정리돼요</span><span class="sp"></span><button class="btn" id="tPasteAdd">찾아서 추가</button><button class="btn pri" id="tPasteSet">이 명단으로 새로 시작</button></div></div>';
+ h+='<div class="paste"><textarea id="tPasteTxt" placeholder="📋 참가자 명단을 그대로 붙여넣으세요 · @나이/이름/게임ID 형식은 이름만 인식 · \'관전\' 표시는 빼고 이름만 인식">'+esc(TB.ptxt||'')+'</textarea><div class="pbtn"><span class="bal">등록된 닉네임과 맞춰서 티어별로 정리돼요</span><span class="sp"></span><button class="btn" id="tPasteAdd">찾아서 추가</button><button class="btn pri" id="tPasteSet">이 명단으로 새로 시작</button></div></div>';
  if(TB.pres)h+='<div class="pres">✅ <b>'+TB.pres.found.length+'명</b> 찾았어요'+(TB.pres.miss.length?'<br><span class="miss">못 찾은 이름 '+TB.pres.miss.length+'개</span> · 누르면 직접 추가돼요 '+TB.pres.miss.map(function(m){return '<span class="un" data-addun="'+esc(m)+'">+ '+esc(m)+'</span>'}).join(''):'')+'</div>';
  var open=!!TB.all;
  h+='<div class="ctl"><input id="tAdd" class="rsel" style="flex:1;min-width:150px" placeholder="이름 직접 입력 후 Enter"><button class="btn" id="tAddBtn">추가</button><button class="btn" id="tAll">'+(open?'전체 명단 접기 ▴':'전체 명단에서 고르기 ▾')+'</button><button class="btn" id="tClr">모두 지우기</button></div>';
