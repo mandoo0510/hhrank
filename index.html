@@ -129,6 +129,30 @@ button,input,select{font-family:inherit}
 .ri .p{text-align:right;font-weight:900;font-size:12.5px;font-variant-numeric:tabular-nums}
 .ri .p span{display:block;color:var(--mut);font-size:9.5px;font-weight:500}
 .rnote{color:var(--dim);font-size:10.5px;margin-top:10px;text-align:center}
+.seg4{grid-template-columns:repeat(2,1fr)}
+.seg button.on.rv{color:var(--gold)}
+.rall{width:100%;margin-top:10px}
+/* full ranking */
+.rbar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px 0}
+.rbar .sp{flex:1}
+.rsel{background:var(--s2);border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:7px 10px;font-size:12px;outline:none}
+.rt{width:100%;border-collapse:collapse;margin-top:10px}
+.rt th{font-size:11px;color:var(--mut);font-weight:700;text-align:right;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap;cursor:pointer;user-select:none}
+.rt th.l,.rt td.l{text-align:left}
+.rt th.on{color:var(--gold)}
+.rt th:hover{color:var(--txt)}
+.rt td{padding:10px 12px;text-align:right;font-size:12.5px;border-bottom:1px solid var(--line);white-space:nowrap;font-variant-numeric:tabular-nums}
+.rt tr.rw{cursor:pointer}
+.rt tr.rw:hover td{background:var(--s1)}
+.rt tr:last-child td{border-bottom:0}
+.rt .rn{width:44px;color:var(--mut);font-weight:900}
+.rt tr.t3 .rn{color:var(--gold)}
+.rt .nmc b{font-weight:700;margin-right:8px}
+.rt td.on{color:var(--gold);font-weight:900}
+.wbar{display:inline-flex;align-items:center;gap:8px;justify-content:flex-end}
+.wbar i{display:inline-block;width:52px;height:5px;border-radius:9px;background:var(--s2);position:relative;overflow:hidden}
+.wbar i b{position:absolute;left:0;top:0;bottom:0;border-radius:9px;background:linear-gradient(90deg,#5b86ff,#a88bff)}
+.tscroll{overflow-x:auto}
 /* tier chip */
 .tchip{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 32%,transparent);white-space:nowrap}
 /* modal */
@@ -161,6 +185,10 @@ button,input,select{font-family:inherit}
  .side .stat{margin:0}.side .st1{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;column-gap:16px}
  .side .st2{grid-column:1/-1}
  .side .st3{display:none}
+ .side .st4{grid-column:1/-1}
+ .rt .hm{display:none}
+ .rt td,.rt th{padding:9px 8px}
+ .wbar i{display:none}
  .side .btn.wide{grid-column:1/-1;margin:0;padding:8px}
  .rank{grid-column:1}
  .vtabs{width:100%}.vtabs button{flex:1}
@@ -190,6 +218,10 @@ button,input,select{font-family:inherit}
    <div class="lbl">기록 구분</div>
    <div class="seg" id="mode"><button data-m="base" class="on">일반</button><button data-m="dk">대꼴룰</button><button data-m="all">통합</button></div>
   </div>
+  <div class="stat st4">
+   <div class="lbl">전체 순위 보기</div>
+   <div class="seg seg4" id="rview"><button data-rv="wr">승률순</button><button data-rv="kd">KD순</button><button data-rv="k">전체 킬순</button><button data-rv="g">참여순</button></div>
+  </div>
   <div class="stat st3"><div class="lbl">티어 바로가기</div><div class="tnav" id="tnav"></div></div>
   <button class="btn wide" id="themeBtn">라이트 스타일로 보기</button>
  </aside>
@@ -206,7 +238,7 @@ button,input,select{font-family:inherit}
   </div>
   <div class="card tools">
    <input id="q" placeholder="⌕  닉네임 검색">
-   <div class="vtabs" id="vtabs"><button data-v="tier" class="on">티어별 전적</button><button data-v="games">경기 기록</button></div>
+   <div class="vtabs" id="vtabs"><button data-v="tier" class="on">티어별 전적</button><button data-v="rank">전체 순위</button><button data-v="games">경기 기록</button></div>
   </div>
   <div id="board"><div class="card load"><div class="spin"></div>불러오는 중…</div></div>
  </main>
@@ -215,6 +247,7 @@ button,input,select{font-family:inherit}
   <div class="top"><div><div class="eyebrow">MEMBER RANKING</div><h3 id="rTitle">최고 승률 TOP 10</h3><small>3게임 이상 참여한 멤버 기준</small></div></div>
   <div class="seg rseg" id="rseg"><button data-r="wr" class="on">승률</button><button data-r="kd">평균 KD</button><button data-r="k">전체 킬</button></div>
   <div id="rankList"></div>
+  <button class="btn rall" id="rAll">전체 참가자 순위 보기 →</button>
  </aside>
 
  <div class="foot">희희낙락 킬내기 · 기록은 티어표 시트와 자동 동기화돼요 · <span id="sAt"></span></div>
@@ -223,7 +256,7 @@ button,input,select{font-family:inherit}
 
 <script>
 var API='https://script.google.com/macros/s/AKfycbyHfQC9_hT0G_H6OTzXVVCelz2K875S161yXT2gbxy-DNxpmWdnzkRycx8ZF8Bikkke/exec';
-var D=null,M={},MODE='base',VIEW='tier',RK='wr',Q='',RULE='전체',GLIM=25,CHIPN=15,MINR=3;
+var D=null,M={},MODE='base',VIEW='tier',RK='wr',Q='',RULE='전체',GLIM=25,CHIPN=15,MINR=3,RV='wr',RMIN=1;
 var TIERS=['갓티어','1티어 상','1티어 하','2티어 상','2티어 하','3티어','4티어','BABY티어','미배정'];
 var TC={'갓티어':'#ff5a76','1티어 상':'#ff9f43','1티어 하':'#f6c560','2티어 상':'#2ed3b7','2티어 하':'#62c6ee','3티어':'#9b8cff','4티어':'#a3adbf','BABY티어':'#f59bd0','미배정':'#6b7280'};
 function $(i){return document.getElementById(i)}
@@ -312,11 +345,33 @@ function openP(n){var m=M[MODE],p=m.P[n];if(!p)return;
 function closeP(){$('ov').classList.remove('on')}
 
 // ---------- events ----------
-function render(){if(!D)return;rSide();rRank();if(VIEW=='tier')rTier();else rGames()}
+// ---------- full ranking ----------
+var RVL={wr:'승률',kd:'평균 KD',k:'전체 킬',g:'참여'};
+function rFull(){
+ var m=M[MODE];var l=m.rec.filter(function(p){return p.g>=RMIN}).sort(function(a,b){return (b[RV]-a[RV])||(b.g-a.g)||(b.kd-a.kd)||a.n.localeCompare(b.n)});
+ var rk=[],prev=null;l.forEach(function(p,i){rk.push(prev!==null&&p[RV]===l[i-1][RV]?rk[i-1]:i+1);prev=p[RV]});
+ var cols=[['g','참여',''],['w','승/패','hm'],['wr','승률',''],['kd','평균 KD',''],['k','전체 킬',''],['best','최고 킬','hm']];
+ var h='<section class="card tier"><div class="th"><h2 style="color:var(--gold)">전체 순위 · '+RVL[RV]+'순</h2><span class="cnt">'+l.length+'명</span></div>'+
+  '<div class="rbar"><div class="seg seg4" style="grid-template-columns:repeat(4,auto)" id="rview2">'+['wr','kd','k','g'].map(function(k){return '<button data-rv="'+k+'" class="'+(RV==k?'on rv':'')+'" style="padding:7px 12px">'+RVL[k]+'순</button>'}).join('')+'</div><span class="sp"></span>'+
+  '<select class="rsel" id="rmin">'+[1,3,5,10].map(function(n){return '<option value="'+n+'"'+(RMIN==n?' selected':'')+'>'+(n==1?'전체 참가자':n+'판 이상 참여')+'</option>'}).join('')+'</select></div>'+
+  '<div class="tscroll"><table class="rt"><thead><tr><th class="l">#</th><th class="l">닉네임</th>'+cols.map(function(c){return '<th class="'+(c[0]==RV?'on ':'')+c[2]+'"'+(c[0]=='w'||c[0]=='best'?'':' data-rv="'+c[0]+'"')+'>'+c[1]+(c[0]==RV?' ↓':'')+'</th>'}).join('')+'</tr></thead><tbody>';
+ var rows=0;l.forEach(function(p,i){if(Q&&p.n.toLowerCase().indexOf(Q)<0)return;rows++;
+  h+='<tr class="rw'+(rk[i]<=3?' t3':'')+'" data-p="'+esc(p.n)+'"><td class="l rn">'+rk[i]+'</td><td class="l nmc"><b>'+esc(p.n)+'</b>'+tchip(p.t)+'</td>'+
+   '<td class="'+(RV=='g'?'on':'')+'">'+p.g+'</td><td class="hm">'+p.w+' / '+p.l+'</td>'+
+   '<td class="'+(RV=='wr'?'on':'')+'"><span class="wbar"><i><b style="width:'+(p.wr*100)+'%"></b></i>'+pct(p.wr)+'</span></td>'+
+   '<td class="'+(RV=='kd'?'on':'')+'">'+f2(p.kd)+'</td><td class="'+(RV=='k'?'on':'')+'">'+p.k+'</td><td class="hm">'+p.best+'</td></tr>'});
+ if(!rows)h+='<tr><td colspan="8" class="empty">'+(Q?'검색 결과가 없어요':'기록이 없어요')+'</td></tr>';
+ $('board').innerHTML=h+'</tbody></table></div></section>';
+}
+function syncRV(){document.querySelectorAll('#rview button').forEach(function(b){b.classList.toggle('on',VIEW=='rank'&&b.dataset.rv==RV);b.classList.toggle('rv',VIEW=='rank'&&b.dataset.rv==RV)})}
+function goRank(k){var was=VIEW=='rank';RV=k;VIEW='rank';sel('#vtabs button',document.querySelector('#vtabs [data-v=rank]'));render();if(!was)window.scrollTo({top:0,behavior:'smooth'})}
+function render(){if(!D)return;rSide();rRank();syncRV();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else rGames()}
 document.addEventListener('click',function(e){var t;
  if(t=e.target.closest('#mode [data-m]')){MODE=t.dataset.m;sel('#mode button',t);GLIM=25;render();return}
  if(t=e.target.closest('#vtabs [data-v]')){VIEW=t.dataset.v;sel('#vtabs button',t);GLIM=25;render();return}
  if(t=e.target.closest('#rseg [data-r]')){RK=t.dataset.r;sel('#rseg button',t);rRank();return}
+ if(t=e.target.closest('[data-rv]')){goRank(t.dataset.rv);return}
+ if(e.target.id=='rAll'){goRank(RK);return}
  if(t=e.target.closest('[data-rule]')){RULE=t.dataset.rule;GLIM=25;rGames();return}
  if(t=e.target.closest('[data-go]')){e.preventDefault();if(VIEW!='tier'){VIEW='tier';sel('#vtabs button',document.querySelector('#vtabs [data-v=tier]'));rTier()}var el=document.getElementById('t_'+t.dataset.go);if(el)el.scrollIntoView({behavior:'smooth'});return}
  if(e.target.id=='more'){GLIM+=25;rGames();return}
@@ -325,7 +380,8 @@ document.addEventListener('click',function(e){var t;
  if(e.target.id=='ov')closeP()});
 function sel(q,b){document.querySelectorAll(q).forEach(function(x){x.classList.toggle('on',x==b)})}
 document.addEventListener('keydown',function(e){if(e.key=='Escape')closeP()});
-$('q').addEventListener('input',function(){Q=this.value.trim().toLowerCase();if(VIEW=='tier')rTier();else rGames()});
+$('q').addEventListener('input',function(){Q=this.value.trim().toLowerCase();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else rGames()});
+document.addEventListener('change',function(e){if(e.target.id=='rmin'){RMIN=+e.target.value;rFull()}});
 function setTheme(l){document.documentElement.setAttribute('data-theme',l?'light':'dark');$('themeBtn').textContent=l?'다크 스타일로 보기':'라이트 스타일로 보기';try{localStorage.setItem('hhTheme',l?'light':'dark')}catch(_){}}
 $('themeBtn').onclick=function(){setTheme(document.documentElement.getAttribute('data-theme')!='light')};
 try{if(localStorage.getItem('hhTheme')=='light')setTheme(true)}catch(_){}
