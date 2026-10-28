@@ -242,6 +242,55 @@ body.isadm .noadm{display:none!important}
 .sgrp2:first-of-type{border-top:0}
 .sgt2{display:flex;align-items:baseline;justify-content:space-between;font-size:12px;font-weight:900;margin-bottom:6px}
 .sgt2 em{font-style:normal;font-weight:500;color:var(--mut);font-size:10.5px}
+/* team draft */
+.draft .holo,.dteam .holo{height:3px;background:linear-gradient(100deg,#7aa2ff,#a88bff,#f59bd0,#7bdff2,#7aa2ff);background-size:300% 100%;animation:holo 18s linear infinite}
+@keyframes holo{to{background-position:300% 0}}
+.dtool{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding:12px 16px;border-bottom:1px solid var(--line)}
+.dtool .sp{flex:1}
+.dstat{display:flex;gap:6px;flex-wrap:wrap}
+.dstat span{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--s1);border:1px solid var(--line);color:var(--mut)}
+.dstat .a{color:var(--green);border-color:rgba(76,195,138,.35)}
+.dstat .b{color:#ffb3b5;border-color:rgba(255,138,142,.35)}
+.btn.holo2{background:linear-gradient(100deg,rgba(122,162,255,.22),rgba(168,139,255,.22),rgba(245,155,208,.18));border-color:rgba(140,160,255,.45)}
+.memo{width:100%;min-height:110px;background:var(--s2);border:1px solid var(--line);border-radius:10px;color:var(--txt);padding:10px 12px;font:inherit;font-size:13px;resize:vertical;outline:none}
+.dteams{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
+.dteam{background:var(--s1);border:1px solid var(--line);border-radius:14px;overflow:hidden;transition:border-color .15s}
+.dteam.drop{border-color:var(--gold)}
+.dti{padding:11px}
+.dti h4{margin:0 0 9px;display:flex;justify-content:space-between;align-items:baseline;font-size:14px;font-weight:900}
+.dti h4 em{font-style:normal;color:var(--gold);font-size:12.5px;font-variant-numeric:tabular-nums}
+.dslot{position:relative;display:flex;align-items:center;gap:7px;min-height:36px;border-radius:9px;margin-bottom:6px;font-size:12.5px;transition:border-color .15s,background .15s}
+.dslot.drop{outline:2px dashed var(--gold);outline-offset:1px}
+.dslot.fill{padding:7px 9px;background:var(--s2);border:1px solid var(--line);cursor:grab;user-select:none}
+.dslot.fill.cap{border-color:rgba(246,197,96,.5);background:linear-gradient(90deg,rgba(246,197,96,.12),var(--s2) 70%)}
+.dslot.sel{outline:2px solid var(--gold);outline-offset:1px}
+.dslot i{width:7px;height:7px;border-radius:50%;flex:none}
+.dslot b{flex:1;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dslot em{font-style:normal;color:var(--mut);font-size:10.5px;font-variant-numeric:tabular-nums}
+.dslot .star{color:#f6c560;font-size:12px}
+.dslot .xx{background:none;border:0;color:var(--dim);cursor:pointer;font-size:14px;padding:0 2px}
+.dslot.emp{border:1px dashed var(--line2)}
+.dslot.emp.cap{border-color:rgba(246,197,96,.45)}
+.slotin{width:100%;background:transparent;border:0;outline:none;color:var(--txt);padding:8px 10px;font:inherit;font-size:12.5px}
+.slotin::placeholder{color:var(--dim)}
+.dac{position:absolute;left:0;right:0;top:100%;z-index:30;margin-top:4px;background:var(--card);border:1px solid var(--line2);border-radius:10px;box-shadow:0 12px 30px rgba(0,0,0,.35);max-height:260px;overflow:auto;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
+.dac div{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 10px;font-size:12.5px;cursor:pointer}
+.dac div.on,.dac div:hover{background:var(--hov)}
+.dac span{display:flex;align-items:center;gap:7px}
+.dac i{width:7px;height:7px;border-radius:50%}
+.dac small{color:var(--dim);font-size:10.5px}
+.dac b{color:var(--mut);font-size:11px;font-weight:700}
+.entry{display:flex;flex-wrap:wrap;gap:6px;min-height:40px;padding:8px;border:1px dashed var(--line2);border-radius:12px;background:var(--s2)}
+.echip{display:inline-flex;align-items:center;gap:6px;padding:5px 10px 5px 5px;border-radius:999px;font-size:12px;font-weight:700;background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 38%,transparent);cursor:grab;animation:pop .18s ease-out}
+.echip i{font-style:normal;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:10.5px;background:var(--c);color:#0b0d14}
+.dlines{background:var(--s2);border:1px dashed var(--line2);border-radius:12px;padding:4px 12px}
+.dlines.drop{border-color:var(--gold)}
+.pline2{display:flex;gap:12px;align-items:flex-start;padding:9px 0;border-top:1px solid var(--line)}
+.pline2:first-child{border-top:0}
+.lsc{width:92px;flex:none;font-weight:900;font-size:15px;line-height:1.2}
+.lsc i{display:block;font-style:normal;font-weight:600;color:var(--mut);font-size:10.5px;margin-top:2px}
+.lnm{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0}
+.draft.cap .hc{display:none!important}
 /* tier chip */
 .tchip{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:999px;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border:1px solid color-mix(in srgb,var(--c) 32%,transparent);white-space:nowrap}
 /* modal */
@@ -279,6 +328,8 @@ body.isadm .noadm{display:none!important}
  .tgrid2{grid-template-columns:1fr 1fr}
  .tlay{grid-template-columns:1fr}
  .tpool{position:static;max-height:none}
+ .dteams{grid-template-columns:1fr 1fr}
+ .lsc{width:70px;font-size:13px}
  .vtabs button{padding:7px 4px;font-size:11.5px;white-space:nowrap}
  .rt .hm{display:none}
  .rt td,.rt th{padding:9px 8px}
@@ -320,7 +371,7 @@ body.isadm .noadm{display:none!important}
   <div class="stat abox st5">
    <div class="lbl">관리자</div>
    <div class="noadm" style="display:block"><button class="btn wide pri" id="loginBtn" style="margin:0">관리자 로그인</button></div>
-   <div class="adm" style="flex-direction:column"><div class="who"><b id="meId">-</b><span id="meRole">관리자</span></div><div class="abtns"><button class="btn" id="goTeam">팀짜기</button><button class="btn" id="logoutBtn">로그아웃</button><button class="btn" id="pwBtn">비밀번호 변경</button><button class="btn" id="acctBtn">계정 관리</button></div></div>
+   <div class="adm" style="flex-direction:column"><div class="who"><b id="meId">-</b><span id="meRole">관리자</span></div><div class="abtns"><button class="btn" id="goTeam">팀 드래프트</button><button class="btn" id="logoutBtn">로그아웃</button><button class="btn" id="pwBtn">비밀번호 변경</button><button class="btn" id="acctBtn">계정 관리</button></div></div>
   </div>
   <button class="btn wide" id="themeBtn">라이트 스타일로 보기</button>
  </aside>
@@ -337,7 +388,7 @@ body.isadm .noadm{display:none!important}
   </div>
   <div class="card tools">
    <input id="q" placeholder="⌕  닉네임 검색">
-   <div class="vtabs" id="vtabs"><button data-v="tier" class="on">티어별 전적</button><button data-v="rank">전체 순위</button><button data-v="games">경기 기록</button><button data-v="team" class="adm">팀짜기</button></div>
+   <div class="vtabs" id="vtabs"><button data-v="tier" class="on">티어별 전적</button><button data-v="rank">전체 순위</button><button data-v="games">경기 기록</button><button data-v="team" class="adm">팀 드래프트</button></div>
   </div>
   <div id="board"><div class="card load"><div class="spin"></div>불러오는 중…</div></div>
  </main>
@@ -476,7 +527,7 @@ function busy(b,on){if(!b)return;b.disabled=on;if(on){b.dataset.t=b.textContent;
 function openLogin(){post('status',{},function(d){
  if(d.setupOpen){modal('<div class="mdh"><div><h3>마스터 계정 만들기</h3><span class="cnt">처음 한 번만</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmSetup"><div style="font-size:12px;color:var(--mut)">아직 관리자 계정이 없어요. 지금 만드는 계정이 <b style="color:var(--gold)">마스터</b>가 되고, 다른 관리자 계정은 마스터가 만들 수 있어요.</div><label>아이디</label><input id="fId" autocomplete="username"><label>비밀번호 (6자 이상)</label><input id="fPw" type="password" autocomplete="new-password"><label>비밀번호 확인</label><input id="fPw2" type="password" autocomplete="new-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">마스터 계정 만들기</button></div></form>');
   $('fmSetup').onsubmit=function(e){e.preventDefault();if($('fPw').value!==$('fPw2').value)return fmMsg('비밀번호가 서로 달라요');var b=e.target.querySelector('button');busy(b,true);post('setup',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);setMe({id:r.id,role:r.role},r.token);closeP()})};return}
- modal('<div class="mdh"><div><h3>관리자 로그인</h3><span class="cnt">팀짜기 · 계정 관리</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmLogin"><label>아이디</label><input id="fId" autocomplete="username"><label>비밀번호</label><input id="fPw" type="password" autocomplete="current-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">로그인</button></div></form>');
+ modal('<div class="mdh"><div><h3>관리자 로그인</h3><span class="cnt">팀 드래프트 · 계정 관리</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmLogin"><label>아이디</label><input id="fId" autocomplete="username"><label>비밀번호</label><input id="fPw" type="password" autocomplete="current-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">로그인</button></div></form>');
  $('fmLogin').onsubmit=function(e){e.preventDefault();var b=e.target.querySelector('button');busy(b,true);post('login',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);setMe({id:r.id,role:r.role},r.token);closeP();goTeam()})}})}
 function openPw(id){modal('<div class="mdh"><div><h3>비밀번호 변경</h3><span class="cnt">'+esc(id||ME.id)+'</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmPw"><label>새 비밀번호 (6자 이상)</label><input id="fPw" type="password" autocomplete="new-password"><label>새 비밀번호 확인</label><input id="fPw2" type="password" autocomplete="new-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">변경하기</button></div></form>');
  $('fmPw').onsubmit=function(e){e.preventDefault();if($('fPw').value!==$('fPw2').value)return fmMsg('비밀번호가 서로 달라요');var b=e.target.querySelector('button');busy(b,true);post('password',{pw:$('fPw').value,id:id||''},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);fmMsg('비밀번호를 바꿨어요',true);setTimeout(closeP,900)})}}
@@ -487,31 +538,33 @@ function loadAccts(){post('accounts',{},function(r){if(!r.ok){$('alist').innerHT
 function checkSession(){if(!TOK)return;post('me',{},function(r){if(r.ok&&r.session)setMe(r.session);else setMe(null)})}
 
 // ---------- team builder ----------
-var TB={sel:[],teams:[],pool:[],size:4,n:0,pts:{},rule:'',loaded:false,pick:null,tq:'',ptxt:'',pres:null,all:null};
+var TB={sel:[],teams:[],pool:[],size:4,n:0,pts:{},rule:'',loaded:false,pick:null,tq:'',ptxt:'',pres:null,all:null,entry:[],memo:'',showMemo:false,showIn:true,cap:false};
+try{var _sv=JSON.parse(localStorage.getItem('hhDraft')||'null');if(_sv){['sel','teams','size','n','entry','ptxt','memo'].forEach(function(k){if(_sv[k]!=null)TB[k]=_sv[k]})}}catch(_){}
+function tbSave(){try{localStorage.setItem('hhDraft',JSON.stringify({sel:TB.sel,teams:TB.teams,size:TB.size,n:TB.n,entry:TB.entry,ptxt:TB.ptxt,memo:TB.memo}))}catch(_){}}
 function tTiers(){return (TB.rule=='대꼴룰'?D.dk.t:D.base.t)}
 function tTier(n){var t=tTiers();return tierOf(t[n]?t[n][0]:'')}
 function isKnown(n){return !!tTiers()[n]||!!(M.base&&M.base.P[n]&&M.base.P[n].g)}
-function tPts(n){var t=tTier(n);return TB.pts[t]!=null?TB.pts[t]:(TB.pts['3티어']!=null?TB.pts['3티어']:15)}
+function tPts(n){if(!n)return 0;var t=tTier(n);return TB.pts[t]!=null?TB.pts[t]:(TB.pts['3티어']!=null?TB.pts['3티어']:15)}
 function goTeam(){VIEW='team';sel('#vtabs button',document.querySelector('#vtabs [data-v=team]'));render();window.scrollTo({top:0,behavior:'smooth'})}
+function normTeams(){var N=teamCount();TB.teams=TB.teams.map(function(t){t=(t||[]).slice(0,TB.size);while(t.length<TB.size)t.push('');return t});while(TB.teams.length<N){var e=[];for(var i=0;i<TB.size;i++)e.push('');TB.teams.push(e)}while(TB.teams.length>N&&!TB.teams[TB.teams.length-1].some(Boolean))TB.teams.pop()}
 function loadBoardTeams(cb){post('teams',{},function(r){if(!r.ok){alert(r.msg||'불러오기 실패');return}TB.pts=r.pts||{};TB.rule=r.rule||'';TB.loaded=true;
- var ts=r.teams.map(function(t){return t.filter(String)}).filter(function(t){return t.length});
- if(cb==='apply'||!TB.sel.length){TB.teams=ts;TB.n=ts.length;TB.sel=[].concat.apply([],ts)}
+ if(cb==='apply'){var ts=r.teams.map(function(t){return t.slice(0,4)});var last=0;ts.forEach(function(t,i){if(t.some(Boolean))last=i+1});ts=ts.slice(0,Math.max(1,last));TB.teams=ts;TB.n=ts.length;TB.size=4;[].concat.apply([],ts).filter(Boolean).forEach(function(n){if(TB.sel.indexOf(n)<0)TB.sel.push(n)})}
  rTeam()})}
 function assigned(n){return TB.teams.some(function(t){return t.indexOf(n)>=0})}
 function unassigned(){return TB.sel.filter(function(n){return !assigned(n)})}
-function teamCount(){var need=Math.max(1,Math.ceil(TB.sel.length/TB.size)),used=0;TB.teams.forEach(function(t,i){if(t.length)used=i+1});return Math.min(30,Math.max(need,TB.n||0,used))}
-function ensureTeams(){var N=teamCount();while(TB.teams.length<N)TB.teams.push([]);while(TB.teams.length>N&&!TB.teams[TB.teams.length-1].length)TB.teams.pop()}
+function teamCount(){var need=Math.max(1,Math.ceil(TB.sel.length/TB.size)),used=0;TB.teams.forEach(function(t,i){if(t.some(Boolean))used=i+1});return Math.min(30,Math.max(TB.n||need,used))}
 function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
 function tsum(t){return t.reduce(function(s,n){return s+tPts(n)},0)}
-function makeTeams(mode){TB.teams=[];var N=teamCount(),names=TB.sel.slice();TB.n=N;var T=[];for(var i=0;i<N;i++)T.push([]);
- if(mode=='manual'){TB.teams=T;return rTeam()}
- if(names.length>N*TB.size){alert('인원이 '+(N*TB.size)+'명을 넘어요. 팀 수나 팀 인원을 늘려 주세요');TB.teams=T;return rTeam()}
+function sleepMs(ms){return new Promise(function(r){setTimeout(r,ms)})}
+function makeTeams(mode){var N=Math.max(1,Math.min(30,TB.n||Math.ceil(TB.sel.length/TB.size)));TB.n=N;var names=TB.sel.slice(),T=[];for(var i=0;i<N;i++)T.push([]);
+ if(names.length>N*TB.size){alert('인원이 '+(N*TB.size)+'명을 넘어요. 팀 수나 팀 인원을 늘려 주세요');return}
  if(mode=='random'){shuffle(names).forEach(function(n,i){T[i%N].push(n)})}
  else{names=names.map(function(n){return {n:n,p:tPts(n)+Math.random()*0.5}}).sort(function(a,b){return b.p-a.p});
   var dir=1,k=0;names.forEach(function(o){while(T[k].length>=TB.size){k+=dir;if(k>=N){k=N-1;dir=-1}if(k<0){k=0;dir=1}}T[k].push(o.n);k+=dir;if(k>=N){k=N-1;dir=-1}if(k<0){k=0;dir=1}});
   function cost(){var s=T.map(tsum),avg=s.reduce(function(a,b){return a+b},0)/N;return s.reduce(function(a,b){return a+(b-avg)*(b-avg)},0)}
-  var c=cost();for(var it=0;it<4000;it++){var a=Math.floor(Math.random()*N),b=Math.floor(Math.random()*N);if(a==b||!T[a].length||!T[b].length)continue;var i=Math.floor(Math.random()*T[a].length),j=Math.floor(Math.random()*T[b].length);var x=T[a][i];T[a][i]=T[b][j];T[b][j]=x;var c2=cost();if(c2<=c+1e-9&&(c2<c||Math.random()<.3))c=c2;else{T[b][j]=T[a][i];T[a][i]=x}}}
- TB.teams=T;rTeam()}
+  var c=cost();for(var it=0;it<4000;it++){var a=Math.floor(Math.random()*N),b=Math.floor(Math.random()*N);if(a==b||!T[a].length||!T[b].length)continue;var i2=Math.floor(Math.random()*T[a].length),j=Math.floor(Math.random()*T[b].length);var x=T[a][i2];T[a][i2]=T[b][j];T[b][j]=x;var c2=cost();if(c2<=c+1e-9&&(c2<c||Math.random()<.3))c=c2;else{T[b][j]=T[a][i2];T[a][i2]=x}}
+  T.forEach(function(t){t.sort(function(a,b){return tPts(b)-tPts(a)})})}
+ TB.teams=T;TB.entry=[];rTeam()}
 function knownNames(){var t=tTiers(),s={};Object.keys(t).forEach(function(n){s[n]=1});(M.base?M.base.rec:[]).forEach(function(p){s[p.n]=1});(M.dk?M.dk.rec:[]).forEach(function(p){s[p.n]=1});return Object.keys(s)}
 function parsePaste(txt){var names=knownNames(),low={};names.forEach(function(n){low[n.toLowerCase().replace(/\s+/g,'')]=n});var byLen=names.slice().sort(function(a,b){return b.length-a.length});
  var tierWords=/(관전|갓티어|[1-4]?티어\s*[상하]?|BABY티어|베이비|미배정|팀장|팀원\d*|TEAM\s*\d+|\d+\s*팀|님$|씨$)/gi;
@@ -523,52 +576,69 @@ function parsePaste(txt){var names=knownNames(),low={};names.forEach(function(n)
   var rest=k,hit=false;byLen.forEach(function(n){var nk=n.toLowerCase().replace(/\s+/g,'');if(nk.length<2)return;var i=rest.indexOf(nk);if(i>=0){add(n);hit=true;rest=rest.slice(0,i)+' '+rest.slice(i+nk.length)}});
   if(!hit&&t.length>=2&&t.length<=20&&!/^\d+$/.test(t)&&miss.indexOf(t)<0)miss.push(t)});
  return {found:found,miss:miss}}
-function doPaste(replace){var el=$('tPasteTxt');TB.ptxt=el?el.value:'';var r=parsePaste(TB.ptxt);if(replace){TB.sel=[];TB.teams=[];TB.n=0}r.found.forEach(function(n){if(TB.sel.indexOf(n)<0)TB.sel.push(n)});TB.pres=r;TB.all=false;rTeam()}
-function addName(v){v=String(v||'').trim().slice(0,30);if(!v)return;var r=parsePaste(v);var n=r.found.length?r.found[0]:v;if(TB.sel.indexOf(n)<0)TB.sel.push(n)}
-function chipH(n,from){var t=isKnown(n)?tTier(n):'직접 추가',c=t=='직접 추가'?'#8b8f98':tc(t);var pk=TB.pick&&TB.pick.n==n;
- if(from==='pool')return '<span class="sch'+(pk?' sel':'')+'" draggable="true" data-mv="'+esc(n)+'" data-from="pool" style="--c:'+c+'">'+esc(n)+'<button class="xx" data-del="'+esc(n)+'" title="명단에서 빼기">×</button></span>';
- return '<div class="mem'+(pk?' sel':'')+'" draggable="true" data-mv="'+esc(n)+'" data-from="'+from+'"><i style="background:'+c+'"></i><b>'+esc(n)+'</b><em>'+esc(t.replace('티어',''))+' · '+tPts(n)+'</em><button class="xx" data-back="'+esc(n)+'" title="대기로 돌리기">×</button></div>'}
+function doPaste(replace){var el=$('tPasteTxt');TB.ptxt=el?el.value:'';var r=parsePaste(TB.ptxt);if(replace){TB.sel=[];TB.teams=[];TB.n=0;TB.entry=[]}r.found.forEach(function(n){if(TB.sel.indexOf(n)<0)TB.sel.push(n)});TB.pres=r;rTeam()}
+function resolveName(v){v=String(v||'').trim().slice(0,30);if(!v)return '';var r=parsePaste(v);return r.found.length?r.found[0]:v}
+function addName(v){var n=resolveName(v);if(n&&TB.sel.indexOf(n)<0)TB.sel.push(n);return n}
+function tcol(n){return isKnown(n)?tc(tTier(n)):'#8b8f98'}
+function rEntry(){var el=$('dEntry');if(!el)return;var un=unassigned();TB.entry=TB.entry.filter(function(n){return un.indexOf(n)>=0});
+ el.innerHTML=TB.entry.length?TB.entry.map(function(n,i){return '<span class="echip" draggable="true" data-mv="'+esc(n)+'" data-from="pool" style="--c:'+tcol(n)+'"><i>'+(i+1)+'</i>'+esc(n)+'</span>'}).join(''):'<span class="bal">셔플을 누르면 남은 인원의 들어가기 순서가 정해져요</span>'}
 function rTeam(){
  if(!TB.loaded){$('board').innerHTML='<div class="card load"><div class="spin"></div>점수판 정보를 불러오는 중…</div>';loadBoardTeams();return}
- ensureTeams();
- var names=knownNames();
- var h='<section class="card tier"><div class="th"><h2 style="color:var(--gold)">팀짜기</h2><span class="cnt">점수판 룰: '+esc(TB.rule||'-')+' · '+(TB.rule=='대꼴룰'?'대꼴룰':'일반')+' 티어 기준</span></div>';
- // 1. roster
- h+='<div class="tb"><h3>1. 참가자 명단 <small>'+TB.sel.length+'명</small></h3>';
- h+='<div class="paste"><textarea id="tPasteTxt" placeholder="📋 참가자 명단을 그대로 붙여넣으세요 · @나이/이름/게임ID 형식은 이름만 인식 · \'관전\' 표시는 빼고 이름만 인식">'+esc(TB.ptxt||'')+'</textarea><div class="pbtn"><span class="bal">등록된 닉네임과 맞춰서 티어별로 정리돼요</span><span class="sp"></span><button class="btn" id="tPasteAdd">찾아서 추가</button><button class="btn pri" id="tPasteSet">이 명단으로 새로 시작</button></div></div>';
- if(TB.pres)h+='<div class="pres">✅ <b>'+TB.pres.found.length+'명</b> 찾았어요'+(TB.pres.miss.length?'<br><span class="miss">못 찾은 이름 '+TB.pres.miss.length+'개</span> · 누르면 직접 추가돼요 '+TB.pres.miss.map(function(m){return '<span class="un" data-addun="'+esc(m)+'">+ '+esc(m)+'</span>'}).join(''):'')+'</div>';
- var open=!!TB.all;
- h+='<div class="ctl"><input id="tAdd" class="rsel" style="flex:1;min-width:150px" placeholder="이름 직접 입력 후 Enter"><button class="btn" id="tAddBtn">추가</button><button class="btn" id="tAll">'+(open?'전체 명단 접기 ▴':'전체 명단에서 고르기 ▾')+'</button><button class="btn" id="tClr">모두 지우기</button></div>';
- if(open){var groups={};names.forEach(function(n){if(TB.tq&&n.toLowerCase().indexOf(TB.tq)<0)return;var t=tTier(n);(groups[t]=groups[t]||[]).push(n)});var cnt={};Object.keys(groups).forEach(function(t){cnt[t]=1});
-  h+='<input id="tq" class="rsel" style="width:100%;margin-top:10px" placeholder="전체 명단에서 닉네임 검색" value="'+esc(TB.tq)+'"><div class="pick" style="margin-top:6px">';
-  order(cnt).forEach(function(t){h+='<div style="width:100%" class="pgrp"><span style="color:'+tc(t)+'">'+esc(t)+'</span> <span style="color:var(--dim);font-weight:500">'+(TB.pts[t]!=null?TB.pts[t]+'점':'')+'</span></div>';groups[t].sort().forEach(function(n){h+='<span class="pk'+(TB.sel.indexOf(n)>=0?' on':'')+'" data-pk="'+esc(n)+'"><i style="background:'+tc(t)+'"></i>'+esc(n)+'</span>'})});
+ normTeams();tbSave();
+ var un=unassigned(),T=TB.teams,amapN=TB.sel.length-un.length;
+ var h='<section class="card tier draft'+(TB.cap?' cap':'')+'"><div class="holo"></div><div class="th"><h2 style="color:var(--gold)">팀 드래프트</h2><span class="cnt">점수판 룰: '+esc(TB.rule||'-')+' · '+(TB.rule=='대꼴룰'?'대꼴룰':'일반')+' 티어 점수 기준 <button class="btn" id="dCap" style="padding:4px 10px;font-size:11px;margin-left:6px">'+(TB.cap?'캡처 모드 끄기':'📸 캡처 모드')+'</button></span></div>';
+ // toolbar
+ h+='<div class="dtool hc"><button class="btn" id="dIn">'+(TB.showIn?'선수 입력 접기 ▴':'선수 입력 ▾')+'</button><button class="btn" id="dMemo">메모장</button><button class="btn dan" id="tClr">전체 초기화</button><span class="sp"></span><span class="dstat"><span>총원 '+TB.sel.length+'명</span><span class="a">뽑힌 인원 '+amapN+'명</span><span class="b">안 뽑힌 인원 '+un.length+'명</span></span></div>';
+ // roster input
+ if(TB.showIn){h+='<div class="tb hc"><h3>선수 입력 <small>'+TB.sel.length+'명 등록</small></h3><div class="paste"><textarea id="tPasteTxt" placeholder="📋 참가자 명단을 그대로 붙여넣으세요 · @나이/이름/게임ID 형식은 이름만 인식 · \'관전\' 표시는 빼고 이름만 인식">'+esc(TB.ptxt||'')+'</textarea><div class="pbtn"><input id="tAdd" class="rsel" style="flex:1;min-width:140px" placeholder="이름 직접 입력 후 Enter"><button class="btn" id="tAddBtn">추가</button><span class="sp"></span><button class="btn" id="tPasteAdd">찾아서 추가</button><button class="btn pri" id="tPasteSet">이 명단으로 새로 시작</button></div></div>';
+  if(TB.pres)h+='<div class="pres">✅ <b>'+TB.pres.found.length+'명</b> 찾았어요'+(TB.pres.miss.length?'<br><span class="miss">못 찾은 이름 '+TB.pres.miss.length+'개</span> · 누르면 직접 추가돼요 '+TB.pres.miss.map(function(m){return '<span class="un" data-addun="'+esc(m)+'">+ '+esc(m)+'</span>'}).join(''):'')+'</div>';
   h+='</div>'}
- h+='</div>';
- // 2. controls
- var N=TB.teams.length;
- h+='<div class="tb" style="border-top:1px solid var(--line)"><h3>2. 팀 만들기 <small>최대 30팀 · 팀당 최대 4명</small></h3><div class="ctl"><span class="lb">팀 인원</span><div class="seg" id="tSize">'+[2,3,4].map(function(s){return '<button data-ts="'+s+'" class="'+(TB.size==s?'on':'')+'">'+(s==2?'듀오':s==3?'3인':'스쿼드')+'</button>'}).join('')+'</div><span class="lb" style="margin-left:6px">팀 수</span><input type="number" id="tN" min="1" max="30" value="'+N+'"><span class="sp" style="flex:1"></span><button class="btn pri" data-mk="balance">⚖ 티어 밸런스</button><button class="btn" data-mk="random">🎲 무작위</button><button class="btn" data-mk="manual">↺ 모두 대기로</button></div></div>';
- // 3. board
- var un=unassigned(),sg={};un.forEach(function(n){var t=isKnown(n)?tTier(n):'직접 추가';(sg[t]=sg[t]||[]).push(n)});var sc={};Object.keys(sg).forEach(function(t){sc[t]=1});
- var T=TB.teams,sums=T.map(tsum),filled=sums.filter(function(_,i){return T[i].length});var mx=filled.length?Math.max.apply(null,filled):0,mn=filled.length?Math.min.apply(null,filled):0;
- h+='<div class="tb" style="border-top:1px solid var(--line)"><h3>3. 팀 배치 <small>이름을 끌어서 팀에 넣거나, 눌러서 고른 뒤 팀을 누르세요</small></h3><div class="tlay">';
- h+='<div class="tpool" data-drop="pool"><div class="tpt">대기 인원 <b>'+un.length+'명</b><span>티어별</span></div>';
- if(!un.length)h+='<div class="bal" style="padding:14px 4px">'+(TB.sel.length?'모두 팀에 배치됐어요 👍':'위에서 명단을 붙여넣거나 이름을 입력하세요')+'</div>';
- order(sc).forEach(function(t){var c=t=='직접 추가'?'#8b8f98':tc(t),ps=sg[t].slice().sort(function(a,b){return a.localeCompare(b)});h+='<div class="sgrp2"><div class="sgt2" style="color:'+c+'">'+esc(t)+'<em>'+ps.length+'명'+(TB.pts[t]!=null?' · '+TB.pts[t]+'점':'')+'</em></div><div class="sgl">'+ps.map(function(n){return chipH(n,'pool')}).join('')+'</div></div>'});
- h+='</div><div><div class="tgrid2">'+T.map(function(t,i){var sl='';for(var k=t.length;k<TB.size;k++)sl+='<div class="slot"></div>';return '<div class="tc'+(t.length>=TB.size?' full':'')+'" data-drop="'+i+'"><div class="tch">TEAM '+(i+1)+'<span>'+sums[i]+'점</span></div>'+t.map(function(n){return chipH(n,i)}).join('')+sl+'</div>'}).join('')+'</div>';
- h+='<div class="tbfoot"><span class="bal">팀 점수 차이 <b>'+(mx-mn)+'점</b> (최고 '+mx+' · 최저 '+mn+')</span><span class="sp"></span><button class="btn" id="tLoad">점수판에서 불러오기</button><button class="btn pri" id="tApply">점수판에 적용</button></div></div></div></div>';
- $('board').innerHTML=h+'</section>';
+ if(TB.showMemo)h+='<div class="tb hc"><h3>메모장 <small>이 브라우저에만 저장돼요</small></h3><textarea id="dMemoTxt" class="memo" placeholder="자유롭게 메모하세요">'+esc(TB.memo||'')+'</textarea></div>';
+ // settings
+ h+='<div class="tb hc dset"><div class="ctl"><span class="lb">팀 수</span><input type="number" id="tN" min="1" max="30" value="'+T.length+'"><span class="lb" style="margin-left:6px">팀 인원</span><div class="seg" id="tSize">'+[2,3,4].map(function(s){return '<button data-ts="'+s+'" class="'+(TB.size==s?'on':'')+'">'+(s==2?'듀오':s==3?'3인':'스쿼드')+'</button>'}).join('')+'</div><span class="sp" style="flex:1"></span><button class="btn pri" data-mk="balance">⚖ 티어 밸런스 자동</button><button class="btn" data-mk="random">🎲 무작위 자동</button></div>'+
+  '<div class="ctl" style="margin-top:8px"><button class="btn" id="dCopy">⧉ 팀장 복사</button>'+[0,1,2,3].slice(0,TB.size).map(function(s){return '<button class="btn" data-clr="'+s+'">'+(s?(s+1)+'번라인':'팀장라인')+' 삭제</button>'}).join('')+'<button class="btn dan" id="dReroll">전체 리롤</button><button class="btn holo2" id="dShufCap">⤨ 팀장 셔플</button></div></div>';
+ // teams
+ var sums=T.map(tsum);
+ h+='<div class="tb" style="border-top:1px solid var(--line)"><div class="dteams">'+T.map(function(t,i){return '<div class="dteam" data-drop="'+i+'"><div class="holo"></div><div class="dti"><h4><span>'+(i+1)+'팀</span><em>'+sums[i]+'점</em></h4>'+t.map(function(n,s){var sl=i+':'+s;if(n)return '<div class="dslot fill'+(s==0?' cap':'')+(TB.pick&&TB.pick.n==n?' sel':'')+'" data-drop="'+sl+'" draggable="true" data-mv="'+esc(n)+'" data-from="'+sl+'"><i style="background:'+tcol(n)+'"></i><b>'+esc(n)+'</b><em>'+esc((isKnown(n)?tTier(n):'직접').replace('티어',''))+' · '+tPts(n)+'</em>'+(s==0?'<span class="star">★</span>':'')+'<button class="xx hc" data-back="'+esc(n)+'" title="빼기">×</button></div>';return '<div class="dslot emp'+(s==0?' cap':'')+'" data-drop="'+sl+'"><input class="slotin" data-slot="'+sl+'" placeholder="'+(s==0?'팀장':'팀원 '+s)+' 이름 입력" autocomplete="off"></div>'}).join('')+'</div></div>'}).join('')+'</div>';
+ h+='<div class="tbfoot hc"><span class="bal">팀 점수 차이 <b>'+(function(){var f=sums.filter(function(_,i){return T[i].some(Boolean)});return f.length?Math.max.apply(null,f)-Math.min.apply(null,f):0})()+'점</b></span><span class="sp"></span><button class="btn" id="tLoad">점수판에서 불러오기</button><button class="btn pri" id="tApply">점수판에 적용</button></div></div>';
+ // entry order
+ h+='<div class="tb" style="border-top:1px solid var(--line)"><h3>들어가기 순서 <button class="btn holo2 hc" id="dShufEntry">⤨ 들어가기 셔플</button></h3><div class="entry" id="dEntry" data-drop="pool"></div></div>';
+ // lines (tier rows)
+ var sg={};un.forEach(function(n){var t=isKnown(n)?tTier(n):'직접 추가';(sg[t]=sg[t]||[]).push(n)});var tiersAll=Object.keys(sg).sort(function(a,b){var pa=TB.pts[a]!=null?TB.pts[a]:-1,pb=TB.pts[b]!=null?TB.pts[b]:-1;return pb-pa||TIERS.indexOf(a)-TIERS.indexOf(b)});
+ h+='<div class="tb" style="border-top:1px solid var(--line)"><h3>티어 라인 <small>이름을 끌어서 팀 칸에 넣거나, 눌러서 고른 뒤 칸을 누르세요</small></h3><div class="dlines" data-drop="pool">';
+ if(!tiersAll.length)h+='<div class="bal" style="padding:10px 2px">'+(TB.sel.length?'모두 뽑혔어요 👍':'선수 입력에서 명단을 붙여넣어 주세요')+'</div>';
+ tiersAll.forEach(function(t){var c=t=='직접 추가'?'#8b8f98':tc(t),ps=sg[t].slice().sort(function(a,b){return a.localeCompare(b)});h+='<div class="pline2"><div class="lsc" style="color:'+c+'">'+(TB.pts[t]!=null?TB.pts[t]+'점':'—')+'<i>'+esc(t)+' · '+ps.length+'명</i></div><div class="lnm">'+ps.map(function(n){return '<span class="sch'+(TB.pick&&TB.pick.n==n?' sel':'')+'" draggable="true" data-mv="'+esc(n)+'" data-from="pool" style="--c:'+c+'">'+esc(n)+'<button class="xx hc" data-del="'+esc(n)+'" title="명단에서 빼기">×</button></span>'}).join('')+'</div></div>'});
+ h+='</div></div>';
+ $('board').innerHTML=h+'</section>';rEntry();
 }
-function moveTo(n,dest){TB.teams.forEach(function(t){var i=t.indexOf(n);if(i>=0)t.splice(i,1)});if(TB.sel.indexOf(n)<0)TB.sel.push(n);
- if(dest!=='pool'){var t=TB.teams[+dest];if(t){if(t.length>=TB.size)t.pop();t.push(n)}}TB.pick=null;rTeam()}
-function moveOut(n){TB.teams.forEach(function(t){var i=t.indexOf(n);if(i>=0)t.splice(i,1)})}
-function applyTeams(){var T=TB.teams.map(function(t){return t.slice(0,4)});var last=0;T.forEach(function(t,i){if(t.length)last=i+1});if(!last){alert('팀에 배치된 사람이 없어요');return}T=T.slice(0,last);var un=unassigned().length;
- modal('<div class="mdh"><div><h3>점수판에 적용할까요?</h3><span class="cnt">'+T.length+'팀 · '+[].concat.apply([],T).length+'명</span></div><button class="x" id="xx">×</button></div><div class="fm"><div style="font-size:12.5px;color:var(--mut);line-height:1.6">점수판 TEAM 1~'+T.length+' 탭의 팀원 이름이 지금 화면의 팀으로 바뀌어요.'+(un?'<br><b style="color:#ff8a8e">대기 인원 '+un+'명은 들어가지 않아요.</b>':'')+'</div><label class="chk"><input type="checkbox" id="tClear" checked style="width:auto"> 나머지 팀(TEAM '+(T.length+1)+'~30) 명단 비우기</label><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn" id="tCancel">취소</button><button class="btn pri" id="tGo">적용하기</button></div></div>');
+function placeAt(n,t,s){TB.teams.forEach(function(x){var i=x.indexOf(n);if(i>=0)x[i]=''});if(TB.sel.indexOf(n)<0)TB.sel.push(n);var team=TB.teams[t];if(!team)return;
+ if(s==null){s=team.indexOf('');if(s<0)s=team.length-1}team[s]=n}
+function moveTo(n,dest){dest=String(dest);if(dest==='pool'){TB.teams.forEach(function(x){var i=x.indexOf(n);if(i>=0)x[i]=''})}else{var p=dest.split(':');placeAt(n,+p[0],p.length>1?+p[1]:null)}TB.pick=null;rTeam()}
+function moveOut(n){TB.teams.forEach(function(t){var i=t.indexOf(n);if(i>=0)t[i]=''})}
+function applyTeams(){var T=TB.teams.map(function(t){return t.slice(0,4)});var last=0;T.forEach(function(t,i){if(t.some(Boolean))last=i+1});if(!last){alert('팀에 배치된 사람이 없어요');return}T=T.slice(0,last);var cnt=[].concat.apply([],T).filter(Boolean).length,un=unassigned().length;
+ modal('<div class="mdh"><div><h3>점수판에 적용할까요?</h3><span class="cnt">'+T.length+'팀 · '+cnt+'명</span></div><button class="x" id="xx">×</button></div><div class="fm"><div style="font-size:12.5px;color:var(--mut);line-height:1.6">점수판 TEAM 1~'+T.length+' 탭의 팀장·팀원 칸이 지금 화면 그대로 바뀌어요.'+(un?'<br><b style="color:#ff8a8e">안 뽑힌 인원 '+un+'명은 들어가지 않아요.</b>':'')+'</div><label class="chk"><input type="checkbox" id="tClear" checked style="width:auto"> 나머지 팀(TEAM '+(T.length+1)+'~30) 명단 비우기</label><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn" id="tCancel">취소</button><button class="btn pri" id="tGo">적용하기</button></div></div>');
  $('tCancel').onclick=closeP;$('tGo').onclick=function(){var b=this;busy(b,true);post('applyTeams',{teams:T,clearRest:$('tClear').checked},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);fmMsg('점수판에 '+r.wrote+'팀을 적용했어요',true);setTimeout(closeP,1200)})}}
+function acClose(){var a=document.querySelector('.dac');if(a)a.remove()}
+function acOpen(inp){acClose();var q=inp.value.trim().toLowerCase(),un=unassigned(),known=knownNames().filter(function(n){return !assigned(n)&&un.indexOf(n)<0});
+ var list=un.concat(known).filter(function(n){return !q||n.toLowerCase().indexOf(q)>=0}).sort(function(a,b){var ia=un.indexOf(a)>=0?0:1,ib=un.indexOf(b)>=0?0:1;return ia-ib||tPts(b)-tPts(a)||a.localeCompare(b)}).slice(0,10);
+ if(!list.length)return;var d=document.createElement('div');d.className='dac';d.innerHTML=list.map(function(n,i){return '<div data-acp="'+esc(n)+'" class="'+(i?'':'on')+'"><span><i style="background:'+tcol(n)+'"></i>'+esc(n)+(un.indexOf(n)<0?' <small>명단 밖</small>':'')+'</span><b>'+tPts(n)+'점</b></div>'}).join('');inp.parentNode.appendChild(d)}
+function slotPick(inp,name){var n=resolveName(name);if(!n)return;if(assigned(n)){alert('이미 뽑힌 선수예요');return}var p=inp.dataset.slot.split(':');if(TB.sel.indexOf(n)<0)TB.sel.push(n);placeAt(n,+p[0],+p[1]);TB.entry=TB.entry.filter(function(x){return x!==n});rTeam();var nx=document.querySelector('.slotin');if(nx)nx.focus()}
+async function shufCap(){var caps=TB.teams.map(function(t){return t[0]}).filter(Boolean);if(caps.length<2){alert('팀장 라인에 2명 이상 넣어 주세요');return}shuffle(caps);TB.teams.forEach(function(t){t[0]=''});rTeam();await sleepMs(300);for(var i=0;i<caps.length;i++){TB.teams[i][0]=caps[i];rTeam();await sleepMs(320)}}
+async function shufEntry(){var rest=unassigned();if(!rest.length){alert('남아 있는 선수가 없어요');return}shuffle(rest);TB.entry=[];rEntry();for(var i=0;i<rest.length;i++){TB.entry.push(rest[i]);rEntry();await sleepMs(140)}tbSave()}
 function teamClick(e){var t,n;
- if(t=e.target.closest('[data-pk]')){n=t.dataset.pk;var i=TB.sel.indexOf(n);if(i>=0){TB.sel.splice(i,1);moveOut(n)}else TB.sel.push(n);rTeam();return true}
- if(e.target.id=='tClr'){if(!TB.sel.length||confirm('명단과 팀 배치를 모두 지울까요?')){TB.sel=[];TB.teams=[];TB.n=0;TB.pres=null}rTeam();return true}
+ if(t=e.target.closest('[data-acp]')){var inp=t.closest('.dslot').querySelector('.slotin');slotPick(inp,t.dataset.acp);return true}
+ if(e.target.closest('.slotin'))return true;
+ acClose();
+ if(e.target.id=='tClr'){if(!TB.sel.length||confirm('명단과 팀 배치를 모두 지울까요?')){TB.sel=[];TB.teams=[];TB.n=0;TB.pres=null;TB.entry=[];TB.ptxt=''}rTeam();return true}
  if(e.target.id=='tAddBtn'){addName($('tAdd').value);rTeam();setTimeout(function(){var a=$('tAdd');if(a)a.focus()},0);return true}
- if(e.target.id=='tAll'){TB.all=!TB.all;rTeam();return true}
+ if(e.target.id=='dIn'){TB.showIn=!TB.showIn;rTeam();return true}
+ if(e.target.id=='dMemo'){TB.showMemo=!TB.showMemo;rTeam();return true}
+ if(e.target.id=='dCap'){TB.cap=!TB.cap;rTeam();return true}
+ if(e.target.id=='dCopy'){var txt=TB.teams.map(function(x,i){return (i+1)+'팀 '+(x[0]||'')}).join('\n');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){e.target.textContent='✓ 복사됨';setTimeout(function(){var b=$('dCopy');if(b)b.textContent='⧉ 팀장 복사'},1200)}).catch(function(){prompt('아래 내용을 복사하세요',txt)});return true}
+ if(t=e.target.closest('[data-clr]')){var s=+t.dataset.clr;TB.teams.forEach(function(x){x[s]=''});rTeam();return true}
+ if(e.target.id=='dReroll'){if(confirm('모든 라인을 비울까요?')){TB.teams=TB.teams.map(function(){return []});rTeam()}return true}
+ if(e.target.id=='dShufCap'){shufCap();return true}
+ if(e.target.id=='dShufEntry'){shufEntry();return true}
  if(t=e.target.closest('[data-ts]')){TB.size=+t.dataset.ts;TB.n=0;TB.teams.forEach(function(x){x.splice(TB.size)});rTeam();return true}
  if(t=e.target.closest('[data-mk]')){makeTeams(t.dataset.mk);return true}
  if(e.target.id=='tLoad'){loadBoardTeams('apply');return true}
@@ -581,6 +651,13 @@ function teamClick(e){var t,n;
  if(t=e.target.closest('[data-mv]')){n=t.dataset.mv;if(TB.pick&&TB.pick.n!=n){var dz=t.closest('[data-drop]');if(dz&&String(dz.dataset.drop)!==String(TB.pick.from)){moveTo(TB.pick.n,dz.dataset.drop);return true}}TB.pick=TB.pick&&TB.pick.n==n?null:{n:n,from:t.dataset.from};rTeam();return true}
  if(TB.pick&&(t=e.target.closest('[data-drop]'))){moveTo(TB.pick.n,t.dataset.drop);return true}
  return false}
+document.addEventListener('input',function(e){if(e.target.classList&&e.target.classList.contains('slotin'))acOpen(e.target);if(e.target.id=='dMemoTxt'){TB.memo=e.target.value;tbSave()}});
+document.addEventListener('focusin',function(e){if(e.target.classList&&e.target.classList.contains('slotin'))acOpen(e.target)});
+document.addEventListener('keydown',function(e){if(!(e.target.classList&&e.target.classList.contains('slotin')))return;var ac=document.querySelector('.dac'),items=ac?[].slice.call(ac.children):[],ix=items.findIndex(function(x){return x.classList.contains('on')});
+ if(e.key=='ArrowDown'&&items.length){e.preventDefault();ix=Math.min(ix+1,items.length-1);items.forEach(function(x,i){x.classList.toggle('on',i==ix)})}
+ else if(e.key=='ArrowUp'&&items.length){e.preventDefault();ix=Math.max(ix-1,0);items.forEach(function(x,i){x.classList.toggle('on',i==ix)})}
+ else if(e.key=='Enter'){e.preventDefault();slotPick(e.target,items.length?items[Math.max(0,ix)].dataset.acp:e.target.value)}
+ else if(e.key=='Escape')acClose()});
 function render(){if(!D)return;rSide();rRank();syncRV();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else if(VIEW=='team')rTeam();else rGames()}
 document.addEventListener('click',function(e){var t;
  if(t=e.target.closest('#mode [data-m]')){MODE=t.dataset.m;sel('#mode button',t);GLIM=25;render();return}
@@ -606,7 +683,6 @@ function sel(q,b){document.querySelectorAll(q).forEach(function(x){x.classList.t
 document.addEventListener('keydown',function(e){if(e.key=='Escape')closeP()});
 $('q').addEventListener('input',function(){Q=this.value.trim().toLowerCase();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else rGames()});
 document.addEventListener('change',function(e){if(e.target.id=='rmin'){RMIN=+e.target.value;rFull()}if(e.target.id=='tN'){TB.n=Math.max(1,Math.min(30,+e.target.value||1));rTeam()}});
-function moveOut(n){TB.teams.forEach(function(t){var i=t.indexOf(n);if(i>=0)t.splice(i,1)});var p=TB.pool.indexOf(n);if(p>=0)TB.pool.splice(p,1)}
 document.addEventListener('input',function(e){if(e.target.id=='tq'){TB.tq=e.target.value.trim().toLowerCase();var pos=e.target.selectionStart;rTeam();var q=$('tq');q.focus();try{q.setSelectionRange(pos,pos)}catch(_){}}});
 document.addEventListener('keydown',function(e){if(e.target.id=='tAdd'&&e.key=='Enter'){$('tAddBtn').click()}});
 document.addEventListener('dragstart',function(e){var m=e.target.closest&&e.target.closest('[data-mv]');if(m){e.dataTransfer.setData('text/plain',m.dataset.mv);e.dataTransfer.effectAllowed='move'}});
