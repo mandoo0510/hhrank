@@ -291,6 +291,18 @@ body.isadm .noadm{display:none!important}
 .lsc i{display:block;font-style:normal;font-weight:600;color:var(--mut);font-size:10.5px;margin-top:2px}
 .lnm{display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0}
 .draft.cap .hc{display:none!important}
+.sch.taken{opacity:.3;text-decoration:line-through;cursor:default;padding-right:9px;filter:grayscale(.6)}
+.dr .sch:not(.taken){cursor:pointer}
+.dslot.emp.turn{border:2px solid var(--gold);background:rgba(246,197,96,.1);box-shadow:0 0 0 3px rgba(246,197,96,.18);animation:tpulse 1.6s ease-in-out infinite}
+@keyframes tpulse{50%{box-shadow:0 0 0 6px rgba(246,197,96,.06)}}
+.dturn{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;margin-bottom:10px;border-radius:12px;background:linear-gradient(100deg,rgba(246,197,96,.14),rgba(122,162,255,.08));border:1px solid rgba(246,197,96,.35);font-size:13px}
+.dturn b{color:var(--gold);font-size:15px;margin-left:4px}
+.dturn small{display:block;color:var(--mut);font-size:11px;margin-top:3px}
+.dturn .btn{flex:none;padding:6px 12px;font-size:12px}
+.dturn .btn:disabled{opacity:.4;cursor:default}
+.dteam{overflow:visible;position:relative}
+.dteam>.holo{border-radius:14px 14px 0 0}
+.dteam:focus-within{z-index:5}
 .sch.capc{border-color:#f6c560;box-shadow:0 0 0 1px rgba(246,197,96,.6) inset}
 .lsc{width:110px}
 body.vteam .wrap{grid-template-columns:200px minmax(0,1fr)}
@@ -558,9 +570,9 @@ function loadAccts(){post('accounts',{},function(r){if(!r.ok){$('alist').innerHT
 function checkSession(){if(!TOK)return;post('me',{},function(r){if(r.ok&&r.session)setMe(r.session);else setMe(null)})}
 
 // ---------- team builder ----------
-var TB={sel:[],teams:[],pool:[],size:4,n:0,pts:{},rule:'',loaded:false,pick:null,tq:'',ptxt:'',pres:null,all:null,entry:[],memo:'',showMemo:false,showIn:true,cap:false,capSel:[],capMode:false};
-try{var _sv=JSON.parse(localStorage.getItem('hhDraft')||'null');if(_sv){['sel','teams','size','n','entry','ptxt','memo'].forEach(function(k){if(_sv[k]!=null)TB[k]=_sv[k]})}}catch(_){}
-function tbSave(){try{localStorage.setItem('hhDraft',JSON.stringify({sel:TB.sel,teams:TB.teams,size:TB.size,n:TB.n,entry:TB.entry,ptxt:TB.ptxt,memo:TB.memo}))}catch(_){}}
+var TB={sel:[],teams:[],pool:[],size:4,n:0,pts:{},rule:'',loaded:false,pick:null,tq:'',ptxt:'',pres:null,all:null,entry:[],memo:'',showMemo:false,showIn:true,cap:false,capSel:[],capMode:false,turn:0,hist:[]};
+try{var _sv=JSON.parse(localStorage.getItem('hhDraft')||'null');if(_sv){['sel','teams','size','n','entry','ptxt','memo','turn','hist'].forEach(function(k){if(_sv[k]!=null)TB[k]=_sv[k]})}}catch(_){}
+function tbSave(){try{localStorage.setItem('hhDraft',JSON.stringify({sel:TB.sel,teams:TB.teams,size:TB.size,n:TB.n,entry:TB.entry,ptxt:TB.ptxt,memo:TB.memo,turn:TB.turn,hist:TB.hist}))}catch(_){}}
 function tTiers(){return (TB.rule=='대꼴룰'?D.dk.t:D.base.t)}
 function tTier(n){var t=tTiers();return tierOf(t[n]?t[n][0]:'')}
 function isKnown(n){return !!tTiers()[n]||!!(M.base&&M.base.P[n]&&M.base.P[n].g)}
@@ -619,19 +631,27 @@ function rTeam(){
  h+='<div class="tb hc dset"><div class="ctl"><span class="lb">팀 수</span><input type="number" id="tN" min="1" max="30" value="'+T.length+'"><span class="lb" style="margin-left:6px">팀 인원</span><div class="seg" id="tSize">'+[2,3,4,5,6,7,8].map(function(s){return '<button data-ts="'+s+'" class="'+(TB.size==s?'on':'')+'">'+(s==2?'듀오':s==4?'스쿼드':s+'인')+'</button>'}).join('')+'</div><span class="sp" style="flex:1"></span><button class="btn pri" data-mk="balance">⚖ 티어 밸런스 자동</button><button class="btn" data-mk="random">🎲 무작위 자동</button></div>'+
   '<div class="ctl" style="margin-top:8px"><button class="btn" id="dCopy">⧉ 팀장 복사</button>'+'<button class="btn'+(TB.capMode?' holo2':'')+'" id="dCapMode">'+(TB.capMode?'👑 팀장 후보 선택 끝내기':'👑 팀장 후보 선택')+'</button><button class="btn pri" id="dCapRand">👑 팀장 랜덤 배치'+(TB.capSel.length?' ('+TB.capSel.length+'명)':'')+'</button>'+'<button class="btn dan" id="dReroll">전체 리롤</button><button class="btn holo2" id="dShufCap">⤨ 팀장 셔플</button></div></div>';
  // teams
- var sums=T.map(tsum);
- h+='<div class="dlay"><div class="dl"><div class="dteams">'+T.map(function(t,i){return '<div class="dteam" data-drop="'+i+'"><div class="holo"></div><div class="dti"><h4><span>'+(i+1)+'팀</span><em>합계 '+sums[i]+'</em></h4>'+t.map(function(n,s){var sl=i+':'+s;if(n)return '<div class="dslot fill'+(s==0?' cap':'')+(TB.pick&&TB.pick.n==n?' sel':'')+'" data-drop="'+sl+'" draggable="true" data-mv="'+esc(n)+'" data-from="'+sl+'"><i style="background:'+tcol(n)+'"></i><b>'+esc(n)+'</b><em>'+esc((isKnown(n)?tTier(n):'직접')+'('+tPts(n)+')')+'</em>'+(s==0?'<span class="star">★</span>':'')+'<button class="xx hc" data-back="'+esc(n)+'" title="빼기">×</button></div>';return '<div class="dslot emp'+(s==0?' cap':'')+'" data-drop="'+sl+'"><input class="slotin" data-slot="'+sl+'" placeholder="'+(s==0?'팀장':'팀원 '+s)+' 이름 입력" autocomplete="off"></div>'}).join('')+'</div></div>'}).join('')+'</div>';
+ var sums=T.map(tsum),ctk=curTurn(),cq=turnSeq(),cts=ctk>=0?cq[ctk][0]+':'+cq[ctk][1]:'';
+ h+='<div class="dlay"><div class="dl"><div class="dturn hc" id="dTurn">'+turnLabel()+'</div><div class="dteams">'+T.map(function(t,i){return '<div class="dteam" data-drop="'+i+'"><div class="holo"></div><div class="dti"><h4><span>'+(i+1)+'팀</span><em>합계 '+sums[i]+'</em></h4>'+t.map(function(n,s){var sl=i+':'+s;if(n)return '<div class="dslot fill'+(s==0?' cap':'')+(TB.pick&&TB.pick.n==n?' sel':'')+'" data-drop="'+sl+'" draggable="true" data-mv="'+esc(n)+'" data-from="'+sl+'"><i style="background:'+tcol(n)+'"></i><b>'+esc(n)+'</b><em>'+esc((isKnown(n)?tTier(n):'직접')+'('+tPts(n)+')')+'</em>'+(s==0?'<span class="star">★</span>':'')+'<button class="xx hc" data-back="'+esc(n)+'" title="빼기">×</button></div>';return '<div class="dslot emp'+(s==0?' cap':'')+(sl==cts?' turn':'')+'" data-drop="'+sl+'"><input class="slotin" data-slot="'+sl+'" placeholder="'+(s==0?'1번 팀장':(s+1)+'번')+' 이름 입력" autocomplete="off"></div>'}).join('')+'</div></div>'}).join('')+'</div>';
  h+='<div class="tbfoot hc"><span class="bal">팀 점수 차이 <b>'+(function(){var f=sums.filter(function(_,i){return T[i].some(Boolean)});return f.length?Math.max.apply(null,f)-Math.min.apply(null,f):0})()+'점</b></span><span class="sp"></span><button class="btn" id="tLoad">점수판에서 불러오기</button><button class="btn pri" id="tApply">점수판에 적용</button></div></div>';
  // entry order
  var entryH='<div class="drb"><h3>들어가기 순서 <button class="btn holo2 hc" id="dShufEntry" style="padding:5px 10px;font-size:11px">⤨ 셔플</button></h3><div class="entry" id="dEntry" data-drop="pool"></div></div>';
  // lines (tier rows)
- var sg={};un.forEach(function(n){var t=isKnown(n)?tTier(n):'직접 추가';(sg[t]=sg[t]||[]).push(n)});var tiersAll=Object.keys(sg).sort(function(a,b){var pa=TB.pts[a]!=null?TB.pts[a]:-1,pb=TB.pts[b]!=null?TB.pts[b]:-1;return pb-pa||TIERS.indexOf(a)-TIERS.indexOf(b)});
- h+='<div class="dr"><div class="drb"><h3>참가자 <b class="cntb">'+un.length+'명</b></h3><div class="drhint">'+(TB.capMode?'👑 팀장 후보로 할 사람을 누르세요 (다시 누르면 취소)':'이름을 끌어서 팀 칸에 넣거나, 눌러서 고른 뒤 칸을 누르세요')+'</div><div class="dlines" data-drop="pool">';
- if(!tiersAll.length)h+='<div class="bal" style="padding:10px 2px">'+(TB.sel.length?'모두 뽑혔어요 👍':'선수 입력에서 명단을 붙여넣어 주세요')+'</div>';
- tiersAll.forEach(function(t){var c=t=='직접 추가'?'#8b8f98':tc(t),ps=sg[t].slice().sort(function(a,b){return a.localeCompare(b)});h+='<div class="pline2"><div class="lsc" style="color:'+c+'">'+esc(t)+(TB.pts[t]!=null?'('+TB.pts[t]+')':'')+'<i>'+ps.length+'명</i></div><div class="lnm">'+ps.map(function(n){return '<span class="sch'+(TB.pick&&TB.pick.n==n?' sel':'')+(TB.capSel.indexOf(n)>=0?' capc':'')+'" draggable="true" data-mv="'+esc(n)+'" data-from="pool" style="--c:'+c+'">'+(TB.capSel.indexOf(n)>=0?'👑 ':'')+esc(n)+'<button class="xx hc" data-del="'+esc(n)+'" title="명단에서 빼기">×</button></span>'}).join('')+'</div></div>'});
+ var sg={};TB.sel.forEach(function(n){var t=isKnown(n)?tTier(n):'직접 추가';(sg[t]=sg[t]||[]).push(n)});var tiersAll=Object.keys(sg).sort(function(a,b){var pa=TB.pts[a]!=null?TB.pts[a]:-1,pb=TB.pts[b]!=null?TB.pts[b]:-1;return pb-pa||TIERS.indexOf(a)-TIERS.indexOf(b)});
+ h+='<div class="dr"><div class="drb"><h3>참가자 <b class="cntb">남은 '+un.length+' / '+TB.sel.length+'명</b></h3><div class="drhint">'+(TB.capMode?'👑 팀장 후보로 할 사람을 누르세요 (다시 누르면 취소)':'이름을 누르면 지금 차례 칸에 들어가요 · 끌어서 원하는 칸에 넣을 수도 있어요')+'</div><div class="dlines" data-drop="pool">';
+ if(!tiersAll.length)h+='<div class="bal" style="padding:10px 2px">선수 입력에서 명단을 붙여넣어 주세요</div>';
+ tiersAll.forEach(function(t){var c=t=='직접 추가'?'#8b8f98':tc(t),ps=sg[t].slice().sort(function(a,b){return a.localeCompare(b)});h+='<div class="pline2"><div class="lsc" style="color:'+c+'">'+esc(t)+(TB.pts[t]!=null?'('+TB.pts[t]+')':'')+'<i>'+ps.filter(function(n){return !assigned(n)}).length+' / '+ps.length+'명</i></div><div class="lnm">'+ps.map(function(n){if(assigned(n))return '<span class="sch taken" draggable="false" title="이미 뽑힘" style="--c:'+c+'">'+esc(n)+'</span>';return '<span class="sch'+(TB.pick&&TB.pick.n==n?' sel':'')+(TB.capSel.indexOf(n)>=0?' capc':'')+'" draggable="true" data-mv="'+esc(n)+'" data-from="pool" style="--c:'+c+'">'+(TB.capSel.indexOf(n)>=0?'👑 ':'')+esc(n)+'<button class="xx hc" data-del="'+esc(n)+'" title="명단에서 빼기">×</button></span>'}).join('')+'</div></div>'});
  h+='</div></div>'+entryH+'</div></div>';
  $('board').innerHTML=h+'</section>';rEntry();
 }
+function turnSeq(){var q=[],N=TB.teams.length;for(var i=0;i<N;i++)q.push([i,0]);for(var s=1;s<TB.size;s++)for(var j=0;j<N;j++)q.push([s%2?j:N-1-j,s]);return q}
+function curTurn(){var q=turnSeq(),L=q.length;if(!L)return -1;var st=Math.max(0,Math.min(+TB.turn||0,L));for(var k=0;k<L;k++){var ix=(st+k)%L,p=q[ix];if(TB.teams[p[0]]&&!TB.teams[p[0]][p[1]])return ix}return -1}
+function seqIdx(sl){var p=String(sl).split(':'),q=turnSeq();for(var k=0;k<q.length;k++)if(q[k][0]==+p[0]&&q[k][1]==+p[1])return k;return -1}
+function turnLabel(){var k=curTurn();if(!TB.sel.length&&k==0)return '<span>선수를 등록하면 드래프트를 시작할 수 있어요</span>';if(k<0)return '<span>✅ 모든 칸이 찼어요</span><button class="btn" id="dUndo">↶ 되돌리기</button>';var p=turnSeq()[k];return '<span>다음 차례 <b>'+(p[0]+1)+'팀 '+(p[1]+1)+'번'+(p[1]==0?' (팀장)':'')+'</b><small>참가자 이름을 누르면 이 칸에 들어가요 · 칸을 누르면 차례를 옮길 수 있어요 · 입력칸에서 Tab = 다음 차례</small></span><button class="btn" id="dUndo"'+(TB.hist.length?'':' disabled')+'>↶ 되돌리기</button>'}
+function turnUI(){var k=curTurn(),q=turnSeq(),cs=k>=0?q[k][0]+':'+q[k][1]:'';[].forEach.call(document.querySelectorAll('.dslot.emp'),function(x){x.classList.toggle('turn',x.dataset.drop===cs)});var b=$('dTurn');if(b)b.innerHTML=turnLabel();tbSave()}
+function focusTurn(){var k=curTurn();if(k<0)return;var p=turnSeq()[k],el=document.querySelector('.slotin[data-slot="'+p[0]+':'+p[1]+'"]');if(el)el.focus()}
+function turnPick(n){var k=curTurn();if(k<0){alert('모든 칸이 찼어요');return}var p=turnSeq()[k];placeAt(n,p[0],p[1]);TB.entry=TB.entry.filter(function(x){return x!==n});TB.hist.push(n);TB.turn=k+1;TB.pick=null;rTeam()}
+function dUndo(){var q=turnSeq();while(TB.hist.length){var n=TB.hist.pop();for(var k=0;k<q.length;k++){var p=q[k];if(TB.teams[p[0]]&&TB.teams[p[0]][p[1]]===n){TB.teams[p[0]][p[1]]='';TB.turn=k;rTeam();return}}}rTeam()}
 function placeAt(n,t,s){TB.teams.forEach(function(x){var i=x.indexOf(n);if(i>=0)x[i]=''});if(TB.sel.indexOf(n)<0)TB.sel.push(n);var team=TB.teams[t];if(!team)return;
  if(s==null){s=team.indexOf('');if(s<0)s=team.length-1}team[s]=n}
 function moveTo(n,dest){dest=String(dest);if(dest==='pool'){TB.teams.forEach(function(x){var i=x.indexOf(n);if(i>=0)x[i]=''})}else{var p=dest.split(':');placeAt(n,+p[0],p.length>1?+p[1]:null)}TB.pick=null;rTeam()}
@@ -643,7 +663,7 @@ function acClose(){var a=document.querySelector('.dac');if(a)a.remove()}
 function acOpen(inp){acClose();var q=inp.value.trim().toLowerCase(),un=unassigned(),known=knownNames().filter(function(n){return !assigned(n)&&un.indexOf(n)<0});
  var list=un.concat(known).filter(function(n){return !q||n.toLowerCase().indexOf(q)>=0}).sort(function(a,b){var ia=un.indexOf(a)>=0?0:1,ib=un.indexOf(b)>=0?0:1;return ia-ib||tPts(b)-tPts(a)||a.localeCompare(b)}).slice(0,10);
  if(!list.length)return;var d=document.createElement('div');d.className='dac';d.innerHTML=list.map(function(n,i){return '<div data-acp="'+esc(n)+'" class="'+(i?'':'on')+'"><span><i style="background:'+tcol(n)+'"></i>'+esc(n)+(un.indexOf(n)<0?' <small>명단 밖</small>':'')+'</span><b>'+esc((isKnown(n)?tTier(n):'직접')+'('+tPts(n)+')')+'</b></div>'}).join('');inp.parentNode.appendChild(d)}
-function slotPick(inp,name){var n=resolveName(name);if(!n)return;if(assigned(n)){alert('이미 뽑힌 선수예요');return}var p=inp.dataset.slot.split(':');if(TB.sel.indexOf(n)<0)TB.sel.push(n);placeAt(n,+p[0],+p[1]);TB.entry=TB.entry.filter(function(x){return x!==n});rTeam();var nx=document.querySelector('.slotin');if(nx)nx.focus()}
+function slotPick(inp,name){var n=resolveName(name);if(!n)return;if(assigned(n)){alert('이미 뽑힌 선수예요');return}var p=inp.dataset.slot.split(':');if(TB.sel.indexOf(n)<0)TB.sel.push(n);placeAt(n,+p[0],+p[1]);TB.entry=TB.entry.filter(function(x){return x!==n});TB.hist.push(n);TB.turn=seqIdx(inp.dataset.slot)+1;rTeam();focusTurn()}
 async function shufCap(){var caps=TB.teams.map(function(t){return t[0]}).filter(Boolean);if(caps.length<2){alert('팀장 라인에 2명 이상 넣어 주세요');return}shuffle(caps);TB.teams.forEach(function(t){t[0]=''});rTeam();await sleepMs(300);for(var i=0;i<caps.length;i++){TB.teams[i][0]=caps[i];rTeam();await sleepMs(320)}}
 async function capRand(){var c=TB.capSel.filter(function(n){return TB.sel.indexOf(n)>=0});if(!c.length){alert('먼저 👑 팀장 후보 선택을 눌러 팀장 할 사람을 골라 주세요');return}if(c.length>TB.teams.length){TB.n=Math.min(30,c.length);normTeams()}c=c.slice(0,TB.teams.length);shuffle(c);c.forEach(function(n){moveOut(n)});TB.teams.forEach(function(t){t[0]=''});TB.capMode=false;TB.capSel=[];rTeam();await sleepMs(300);for(var i=0;i<c.length;i++){TB.teams[i][0]=c[i];rTeam();await sleepMs(320)}}
 async function shufEntry(){var rest=unassigned();if(!rest.length){alert('남아 있는 선수가 없어요');return}shuffle(rest);TB.entry=[];rEntry();for(var i=0;i<rest.length;i++){TB.entry.push(rest[i]);rEntry();await sleepMs(140)}tbSave()}
@@ -657,6 +677,7 @@ function teamClick(e){var t,n;
  if(e.target.id=='dMemo'){TB.showMemo=!TB.showMemo;rTeam();return true}
  if(e.target.id=='dCap'){TB.cap=!TB.cap;rTeam();return true}
  if(e.target.id=='dCopy'){var txt=TB.teams.map(function(x,i){return (i+1)+'팀 '+(x[0]||'')}).join('\n');(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(function(){e.target.textContent='✓ 복사됨';setTimeout(function(){var b=$('dCopy');if(b)b.textContent='⧉ 팀장 복사'},1200)}).catch(function(){prompt('아래 내용을 복사하세요',txt)});return true}
+ if(e.target.id=='dUndo'){dUndo();return true}
  if(e.target.id=='dCapMode'){TB.capMode=!TB.capMode;rTeam();return true}
  if(e.target.id=='dCapRand'){capRand();return true}
  if(e.target.id=='dReroll'){if(confirm('모든 라인을 비울까요?')){TB.teams=TB.teams.map(function(){return []});rTeam()}return true}
@@ -671,16 +692,18 @@ function teamClick(e){var t,n;
  if(t=e.target.closest('[data-addun]')){n=t.dataset.addun;if(TB.sel.indexOf(n)<0)TB.sel.push(n);TB.pres.miss=TB.pres.miss.filter(function(x){return x!==n});TB.pres.found.push(n);rTeam();return true}
  if(t=e.target.closest('[data-del]')){n=t.dataset.del;moveOut(n);var k=TB.sel.indexOf(n);if(k>=0)TB.sel.splice(k,1);rTeam();return true}
  if(TB.capMode&&(t=e.target.closest('.dlines [data-mv]'))){n=t.dataset.mv;var ci=TB.capSel.indexOf(n);if(ci>=0)TB.capSel.splice(ci,1);else TB.capSel.push(n);rTeam();return true}
+ if(!TB.pick&&(t=e.target.closest('.dlines [data-mv]'))){turnPick(t.dataset.mv);return true}
  if(t=e.target.closest('[data-back]')){moveTo(t.dataset.back,'pool');return true}
  if(t=e.target.closest('[data-mv]')){n=t.dataset.mv;if(TB.pick&&TB.pick.n!=n){var dz=t.closest('[data-drop]');if(dz&&String(dz.dataset.drop)!==String(TB.pick.from)){moveTo(TB.pick.n,dz.dataset.drop);return true}}TB.pick=TB.pick&&TB.pick.n==n?null:{n:n,from:t.dataset.from};rTeam();return true}
  if(TB.pick&&(t=e.target.closest('[data-drop]'))){moveTo(TB.pick.n,t.dataset.drop);return true}
  return false}
 document.addEventListener('input',function(e){if(e.target.classList&&e.target.classList.contains('slotin'))acOpen(e.target);if(e.target.id=='dMemoTxt'){TB.memo=e.target.value;tbSave()}});
-document.addEventListener('focusin',function(e){if(e.target.classList&&e.target.classList.contains('slotin'))acOpen(e.target)});
+document.addEventListener('focusin',function(e){if(e.target.classList&&e.target.classList.contains('slotin')){var k=seqIdx(e.target.dataset.slot);if(k>=0&&k!==curTurn()){TB.turn=k;turnUI()}acOpen(e.target)}});
 document.addEventListener('keydown',function(e){if(!(e.target.classList&&e.target.classList.contains('slotin')))return;var ac=document.querySelector('.dac'),items=ac?[].slice.call(ac.children):[],ix=items.findIndex(function(x){return x.classList.contains('on')});
  if(e.key=='ArrowDown'&&items.length){e.preventDefault();ix=Math.min(ix+1,items.length-1);items.forEach(function(x,i){x.classList.toggle('on',i==ix)})}
  else if(e.key=='ArrowUp'&&items.length){e.preventDefault();ix=Math.max(ix-1,0);items.forEach(function(x,i){x.classList.toggle('on',i==ix)})}
  else if(e.key=='Enter'){e.preventDefault();slotPick(e.target,items.length?items[Math.max(0,ix)].dataset.acp:e.target.value)}
+ else if(e.key=='Tab'&&!e.shiftKey){e.preventDefault();var v=e.target.value.trim();if(v){slotPick(e.target,items.length?items[Math.max(0,ix)].dataset.acp:v)}else{acClose();TB.turn=seqIdx(e.target.dataset.slot)+1;turnUI();focusTurn()}}
  else if(e.key=='Escape')acClose()});
 function render(){if(!D)return;document.body.classList.toggle('vteam',VIEW=='team');rSide();rRank();syncRV();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else if(VIEW=='team')rTeam();else rGames()}
 document.addEventListener('click',function(e){var t;
