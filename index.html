@@ -625,7 +625,7 @@ function isKnown(n){return !!tTiers()[n]||!!(M.base&&M.base.P[n]&&M.base.P[n].g)
 function tPts(n){if(!n)return 0;var t=tTier(n);return TB.pts[t]!=null?TB.pts[t]:(TB.pts['3티어']!=null?TB.pts['3티어']:15)}
 function goTeam(){VIEW='team';sel('#vtabs button',document.querySelector('#vtabs [data-v=team]'));render();window.scrollTo({top:0,behavior:'smooth'})}
 function normTeams(){var N=teamCount();TB.teams=TB.teams.map(function(t){t=(t||[]).slice(0,TB.size);while(t.length<TB.size)t.push('');return t});while(TB.teams.length<N){var e=[];for(var i=0;i<TB.size;i++)e.push('');TB.teams.push(e)}while(TB.teams.length>N&&!TB.teams[TB.teams.length-1].some(Boolean))TB.teams.pop()}
-function loadBoardTeams(cb){post('teams',{},function(r){if(!r.ok){alert(r.msg||'불러오기 실패');return}TB.pts=r.pts||{};TB.rule=r.rule||'';TB.loaded=true;
+function loadBoardTeams(cb){post('teams',{},function(r){if(!r.ok){alert(r.msg||'불러오기 실패');return}TB.pts={'갓티어':33,'1티어 상':29,'1티어 하':25,'2티어 상':20,'2티어 하':20,'3티어':15,'4티어':12,'BABY티어':5};TB.rule=r.rule||'';TB.loaded=true;
  if(cb==='apply'){var ts=r.teams.map(function(t){return t.slice(0,4)});var last=0;ts.forEach(function(t,i){if(t.some(Boolean))last=i+1});ts=ts.slice(0,Math.max(1,last));TB.teams=ts;TB.n=ts.length;TB.size=4;[].concat.apply([],ts).filter(Boolean).forEach(function(n){if(TB.sel.indexOf(n)<0)TB.sel.push(n)})}
  rTeam()})}
 function assigned(n){return TB.teams.some(function(t){return t.indexOf(n)>=0})}
