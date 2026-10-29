@@ -176,7 +176,7 @@ body.isadm .noadm{display:none!important}
 .fm .row2{display:flex;gap:8px;margin-top:16px}
 .fm .row2 .btn{flex:1}
 .alist{margin-top:6px}
-.arow{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;background:var(--s1);margin-top:6px;font-size:12.5px}
+.arow{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;background:var(--s1);margin-top:6px;font-size:12.5px}
 .arow b{flex:1}
 .arow .btn{padding:5px 9px;font-size:11px}
 /* team builder */
@@ -433,6 +433,10 @@ body.vteam .rank{display:none}
    <div class="lbl">기록 구분</div>
    <div class="seg" id="mode" style="grid-template-columns:repeat(2,1fr)"><button data-m="all">통합</button><button data-m="base" class="on">일반</button><button data-m="dk">대꼴룰</button><button data-m="kd">킬딜</button></div>
   </div>
+  <div class="stat st2" id="sbox" style="display:none">
+   <div class="lbl">시즌별 보기</div>
+   <div class="seg" id="sseg" style="grid-template-columns:repeat(2,1fr)"></div>
+  </div>
   <div class="stat st4">
    <div class="lbl">전체 순위 보기</div>
    <div class="seg seg4" id="rview"><button data-rv="wr">승률순</button><button data-rv="kd">KD순</button><button data-rv="k">전체 킬순</button><button data-rv="g">참여순</button></div>
@@ -476,6 +480,7 @@ body.vteam .rank{display:none}
 
 <script>
 var API='https://script.google.com/macros/s/AKfycbyHfQC9_hT0G_H6OTzXVVCelz2K875S161yXT2gbxy-DNxpmWdnzkRycx8ZF8Bikkke/exec';
+var CURD=null,SEAS='';
 var D=null,M={},MODE='base',VIEW='tier',RK='wr',Q='',RULE='전체',GLIM=25,CHIPN=15,MINR=3,RV='wr',RMIN=1;
 var TIERS=['갓티어','1티어 상','1티어 하','2티어 상','2티어 하','3티어','4티어','BABY티어','미배정'];
 var TC={'갓티어':'#ff5a76','1티어 상':'#ff9f43','1티어 하':'#f6c560','2티어 상':'#2ed3b7','2티어 하':'#62c6ee','3티어':'#9b8cff','4티어':'#a3adbf','BABY티어':'#f59bd0','미배정':'#6b7280'};
@@ -597,29 +602,31 @@ function goRank(k){var was=VIEW=='rank';RV=k;VIEW='rank';sel('#vtabs button',doc
 var TOK='',ME=null;try{TOK=localStorage.getItem('hhTok')||''}catch(_){}
 function post(action,data,ok){var b=data||{};b.hhAction=action;if(TOK)b.token=TOK;fetch(API,{method:'POST',body:JSON.stringify(b)}).then(function(r){return r.json()}).then(function(d){if(d&&d.auth===false){setMe(null)}ok(d||{ok:false,msg:'응답 없음'})}).catch(function(){ok({ok:false,msg:'서버에 연결하지 못했어요'})})}
 function setMe(s,tok){ME=s;if(tok!==undefined){TOK=tok||'';try{TOK?localStorage.setItem('hhTok',TOK):localStorage.removeItem('hhTok')}catch(_){}}if(!s){TOK='';try{localStorage.removeItem('hhTok')}catch(_){}}
- document.body.classList.toggle('isadm',!!s);if(s){$('meId').textContent=s.id;$('meRole').textContent=s.role=='master'?'마스터':'관리자';$('acctBtn').style.display=s.role=='master'?'':'none'}
+ document.body.classList.toggle('isadm',!!s);if(s){$('meId').textContent=s.id;$('meRole').textContent=s.role=='master'?'마스터':(s.mgr?'계정 관리자':'관리자');$('acctBtn').style.display=(s.role=='master'||s.mgr)?'':'none'}
  if(!s&&VIEW=='team'){VIEW='tier';sel('#vtabs button',document.querySelector('#vtabs [data-v=tier]'));render()}}
 function modal(h){$('md').innerHTML=h;$('ov').classList.add('on');var x=$('xx');if(x)x.onclick=closeP;var f=$('md').querySelector('input');if(f)setTimeout(function(){f.focus()},50)}
 function fmMsg(t,ok){var m=$('fmMsg');if(m){m.textContent=t||'';m.className='msg'+(ok?' ok':'')}}
 function busy(b,on){if(!b)return;b.disabled=on;if(on){b.dataset.t=b.textContent;b.textContent='처리 중…'}else if(b.dataset.t)b.textContent=b.dataset.t}
 function openLogin(){post('status',{},function(d){
  if(d.setupOpen){modal('<div class="mdh"><div><h3>마스터 계정 만들기</h3><span class="cnt">처음 한 번만</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmSetup"><div style="font-size:12px;color:var(--mut)">아직 관리자 계정이 없어요. 지금 만드는 계정이 <b style="color:var(--gold)">마스터</b>가 되고, 다른 관리자 계정은 마스터가 만들 수 있어요.</div><label>아이디</label><input id="fId" autocomplete="username"><label>비밀번호 (6자 이상)</label><input id="fPw" type="password" autocomplete="new-password"><label>비밀번호 확인</label><input id="fPw2" type="password" autocomplete="new-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">마스터 계정 만들기</button></div></form>');
-  $('fmSetup').onsubmit=function(e){e.preventDefault();if($('fPw').value!==$('fPw2').value)return fmMsg('비밀번호가 서로 달라요');var b=e.target.querySelector('button');busy(b,true);post('setup',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);setMe({id:r.id,role:r.role},r.token);closeP()})};return}
+  $('fmSetup').onsubmit=function(e){e.preventDefault();if($('fPw').value!==$('fPw2').value)return fmMsg('비밀번호가 서로 달라요');var b=e.target.querySelector('button');busy(b,true);post('setup',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);setMe({id:r.id,role:r.role,mgr:r.mgr},r.token);closeP()})};return}
  modal('<div class="mdh"><div><h3>관리자 로그인</h3><span class="cnt">팀 드래프트 · 계정 관리</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmLogin"><label>아이디</label><input id="fId" autocomplete="username"><label>비밀번호</label><input id="fPw" type="password" autocomplete="current-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">로그인</button></div></form>');
- $('fmLogin').onsubmit=function(e){e.preventDefault();var b=e.target.querySelector('button');busy(b,true);post('login',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);setMe({id:r.id,role:r.role},r.token);closeP();goTeam()})}})}
+ $('fmLogin').onsubmit=function(e){e.preventDefault();var b=e.target.querySelector('button');busy(b,true);post('login',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);setMe({id:r.id,role:r.role,mgr:r.mgr},r.token);closeP();goTeam()})}})}
 function openPw(id){modal('<div class="mdh"><div><h3>비밀번호 변경</h3><span class="cnt">'+esc(id||ME.id)+'</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmPw"><label>새 비밀번호 (6자 이상)</label><input id="fPw" type="password" autocomplete="new-password"><label>새 비밀번호 확인</label><input id="fPw2" type="password" autocomplete="new-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">변경하기</button></div></form>');
  $('fmPw').onsubmit=function(e){e.preventDefault();if($('fPw').value!==$('fPw2').value)return fmMsg('비밀번호가 서로 달라요');var b=e.target.querySelector('button');busy(b,true);post('password',{pw:$('fPw').value,id:id||''},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);fmMsg('비밀번호를 바꿨어요',true);setTimeout(closeP,900)})}}
-function openAccts(){modal('<div class="mdh"><div><h3>계정 관리</h3><span class="cnt">마스터 전용</span></div><button class="x" id="xx">×</button></div><div class="fm"><div class="lbl" style="margin:0">관리자 계정</div><div class="alist" id="alist"><div class="empty" style="padding:16px">불러오는 중…</div></div><form id="fmAdd"><label>새 관리자 아이디</label><input id="fId" autocomplete="off"><label>초기 비밀번호 (6자 이상)</label><input id="fPw" type="password" autocomplete="new-password"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">관리자 계정 추가</button></div></form></div>');
- loadAccts();$('fmAdd').onsubmit=function(e){e.preventDefault();var b=e.target.querySelector('button');busy(b,true);post('addAccount',{id:$('fId').value,pw:$('fPw').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);fmMsg('계정을 만들었어요',true);$('fId').value='';$('fPw').value='';loadAccts()})}}
+function openAccts(){modal('<div class="mdh"><div><h3>계정 관리</h3><span class="cnt">'+(ME&&ME.role=='master'?'마스터':'계정 관리 권한')+'</span></div><button class="x" id="xx">×</button></div><div class="fm"><div class="lbl" style="margin:0">관리자 계정</div><div class="alist" id="alist"><div class="empty" style="padding:16px">불러오는 중…</div></div><form id="fmAdd"><label>새 관리자 아이디</label><input id="fId" autocomplete="off"><label>초기 비밀번호 (6자 이상)</label><input id="fPw" type="password" autocomplete="new-password">'+(ME&&ME.role=='master'?'<label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input type="checkbox" id="fMgr" style="width:auto"> 계정 관리 권한도 주기</label>':'')+'<div class="msg" id="fmMsg"></div><div class="row2"><button class="btn pri" type="submit">관리자 계정 추가</button></div></form></div>');
+ loadAccts();$('fmAdd').onsubmit=function(e){e.preventDefault();var b=e.target.querySelector('button');busy(b,true);post('addAccount',{id:$('fId').value,pw:$('fPw').value,mgr:!!($('fMgr')&&$('fMgr').checked)},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);fmMsg('계정을 만들었어요',true);$('fId').value='';$('fPw').value='';loadAccts()})}}
 function loadAccts(){post('accounts',{},function(r){if(!r.ok){$('alist').innerHTML='<div class="empty" style="padding:16px">'+esc(r.msg)+'</div>';return}
- $('alist').innerHTML=r.list.sort(function(a,b){return (a.role=='master'?0:1)-(b.role=='master'?0:1)||a.at-b.at}).map(function(a){return '<div class="arow"><b>'+esc(a.id)+'</b><span class="cnt">'+(a.role=='master'?'마스터':'관리자')+'</span>'+(a.role=='master'?'':'<button class="btn" data-apw="'+esc(a.id)+'">비번 재설정</button><button class="btn dan" data-adel="'+esc(a.id)+'">삭제</button>')+'</div>'}).join('')})}
+ $('alist').innerHTML=r.list.sort(function(a,b){return (a.role=='master'?0:1)-(b.role=='master'?0:1)||a.at-b.at}).map(function(a){var me=ME&&a.id==ME.id,isM=ME&&ME.role=='master',can=a.role!='master'&&!me&&(isM||!a.mgr);var lab=a.role=='master'?'마스터':(a.mgr?'관리자 · 계정관리':'관리자');var bt='';if(isM&&a.role!='master')bt+='<button class="btn" data-amgr="'+esc(a.id)+'" data-on="'+(a.mgr?0:1)+'">'+(a.mgr?'권한 해제':'관리 권한 주기')+'</button>';if(can||me)bt+='<button class="btn" data-aren="'+esc(a.id)+'">아이디 변경</button>';if(can)bt+='<button class="btn" data-apw="'+esc(a.id)+'">비번 재설정</button><button class="btn dan" data-adel="'+esc(a.id)+'">삭제</button>';return '<div class="arow"><b>'+esc(a.id)+(me?' <small style="color:var(--mut);font-weight:500">(나)</small>':'')+'</b><span class="cnt">'+lab+'</span>'+bt+'</div>'}).join('')})}
+function openRename(id){modal('<div class="mdh"><div><h3>아이디 변경</h3><span class="cnt">'+esc(id)+'</span></div><button class="x" id="xx">×</button></div><form class="fm" id="fmRen"><label>새 아이디</label><input id="fId" autocomplete="off" value="'+esc(id)+'"><div class="msg" id="fmMsg"></div><div class="row2"><button class="btn" type="button" id="renBack">목록으로</button><button class="btn pri" type="submit">변경하기</button></div></form>');
+ $('renBack').onclick=openAccts;$('fmRen').onsubmit=function(e){e.preventDefault();var b=e.target.querySelector('button[type=submit]');busy(b,true);post('renameAccount',{id:id,nid:$('fId').value},function(r){busy(b,false);if(!r.ok)return fmMsg(r.msg);if(r.token)setMe({id:r.id,role:r.role,mgr:r.mgr},r.token);openAccts()})}}
 function checkSession(){if(!TOK)return;post('me',{},function(r){if(r.ok&&r.session)setMe(r.session);else setMe(null)})}
 
 // ---------- team builder ----------
 var TB={sel:[],teams:[],pool:[],size:4,n:0,pts:{},rule:'',loaded:false,pick:null,tq:'',ptxt:'',pres:null,all:null,entry:[],memo:'',showMemo:false,showIn:true,cap:false,capSel:[],capMode:false,turn:0,hist:[]};
 try{var _sv=JSON.parse(localStorage.getItem('hhDraft')||'null');if(_sv){['sel','teams','size','n','entry','ptxt','memo','turn','hist'].forEach(function(k){if(_sv[k]!=null)TB[k]=_sv[k]})}}catch(_){}
 function tbSave(){try{localStorage.setItem('hhDraft',JSON.stringify({sel:TB.sel,teams:TB.teams,size:TB.size,n:TB.n,entry:TB.entry,ptxt:TB.ptxt,memo:TB.memo,turn:TB.turn,hist:TB.hist}))}catch(_){}}
-function tTiers(){return (TB.rule=='대꼴룰'?D.dk.t:D.base.t)}
+function tTiers(){var c=CURD||D;return (TB.rule=='대꼴룰'?c.dk.t:c.base.t)}
 function tTier(n){var t=tTiers();return tierOf(t[n]?t[n][0]:'')}
 function isKnown(n){return !!tTiers()[n]||!!(M.base&&M.base.P[n]&&M.base.P[n].g)}
 function tPts(n){if(!n)return 0;var t=tTier(n);return TB.pts[t]!=null?TB.pts[t]:(TB.pts['3티어']!=null?TB.pts['3티어']:15)}
@@ -751,8 +758,11 @@ document.addEventListener('keydown',function(e){if(!(e.target.classList&&e.targe
  else if(e.key=='Enter'){e.preventDefault();slotPick(e.target,items.length?items[Math.max(0,ix)].dataset.acp:e.target.value)}
  else if(e.key=='Tab'&&!e.shiftKey){e.preventDefault();var v=e.target.value.trim();if(v){slotPick(e.target,items.length?items[Math.max(0,ix)].dataset.acp:v)}else{acClose();TB.turn=seqIdx(e.target.dataset.slot)+1;turnUI();focusTurn()}}
  else if(e.key=='Escape')acClose()});
-function render(){if(!D)return;document.body.classList.toggle('vteam',VIEW=='team');rSide();rRank();syncRV();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else if(VIEW=='team')rTeam();else rGames()}
+function rSeas(){var c=CURD||D,L=(c&&c.seasons)||[];$('sbox').style.display=L.length?'':'none';if(!L.length)return;var it=[{k:'',n:(c.season||'현재')+' (현재)'}].concat(L.slice().reverse().map(function(x){return {k:String(x.i),n:x.n}}));$('sseg').innerHTML=it.map(function(x){return '<button data-se="'+esc(x.k)+'" class="'+(SEAS===x.k?'on':'')+'" title="'+esc(x.n)+'">'+esc(x.n)+'</button>'}).join('')}
+function pickSeason(k){if(k===SEAS)return;SEAS=k;GLIM=25;if(k===''){D=CURD;prep();render();return}rSeas();$('board').innerHTML='<div class="card empty">시즌 기록을 불러오는 중…</div>';api('data&s='+encodeURIComponent(k),function(d){if(SEAS!==k)return;if(!d){alert('시즌 기록을 불러오지 못했어요. 잠시 후 다시 눌러 주세요.');SEAS='';D=CURD;prep();render();return}D=d;prep();render()})}
+function render(){if(!D)return;rSeas();document.body.classList.toggle('vteam',VIEW=='team');rSide();rRank();syncRV();if(VIEW=='tier')rTier();else if(VIEW=='rank')rFull();else if(VIEW=='team')rTeam();else rGames()}
 document.addEventListener('click',function(e){var t;
+ if(t=e.target.closest('#sseg [data-se]')){pickSeason(t.dataset.se);return}
  if(t=e.target.closest('#mode [data-m]')){MODE=t.dataset.m;sel('#mode button',t);GLIM=25;render();return}
  if(t=e.target.closest('#vtabs [data-v]')){VIEW=t.dataset.v;sel('#vtabs button',t);GLIM=25;render();return}
  if(t=e.target.closest('#rseg [data-r]')){RK=t.dataset.r;sel('#rseg button',t);rRank();return}
@@ -763,6 +773,8 @@ document.addEventListener('click',function(e){var t;
  if(e.target.id=='pwBtn'){openPw();return}
  if(e.target.id=='acctBtn'){openAccts();return}
  if(e.target.id=='goTeam'){goTeam();return}
+ if(t=e.target.closest('[data-amgr]')){post('setMgr',{id:t.dataset.amgr,on:t.dataset.on=='1'},function(r){if(!r.ok)alert(r.msg);loadAccts()});return}
+ if(t=e.target.closest('[data-aren]')){openRename(t.dataset.aren);return}
  if(t=e.target.closest('[data-apw]')){openPw(t.dataset.apw);return}
  if(t=e.target.closest('[data-adel]')){if(confirm(t.dataset.adel+' 계정을 삭제할까요?'))post('delAccount',{id:t.dataset.adel},function(r){if(!r.ok)alert(r.msg);loadAccts()});return}
  if(teamClick(e))return;
@@ -787,7 +799,7 @@ checkSession();
 function setTheme(l){document.documentElement.setAttribute('data-theme',l?'light':'dark');$('themeBtn').textContent=l?'다크 스타일로 보기':'라이트 스타일로 보기';try{localStorage.setItem('hhTheme',l?'light':'dark')}catch(_){}}
 $('themeBtn').onclick=function(){setTheme(document.documentElement.getAttribute('data-theme')!='light')};
 try{if(localStorage.getItem('hhTheme')=='light')setTheme(true)}catch(_){}
-function load(){api('data',function(d){if(d){D=d;prep();render()}else if(!D){$('board').innerHTML='<div class="card empty">기록을 불러오지 못했어요. 잠시 후 새로고침해 주세요.</div>'}})}
+function load(){api('data',function(d){if(d){CURD=d;if(SEAS!==''){rSeas();return}D=d;prep();render()}else if(!D){$('board').innerHTML='<div class="card empty">기록을 불러오지 못했어요. 잠시 후 새로고침해 주세요.</div>'}})}
 load();setInterval(function(){if(!document.hidden&&!$('ov').classList.contains('on'))load()},180000);
 </script>
 </body>
