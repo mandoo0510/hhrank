@@ -12,6 +12,7 @@
 <meta name="theme-color" content="#05060c">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <style>
 :root{--bg:#05060c;--bg2:#090b14;--card:rgba(16,19,34,.82);--s1:#151a2c;--s2:#0c0f1c;--hov:#1c2340;--line:#1d2440;--line2:#2b3560;--txt:#e9edfb;--mut:#8a93b5;--dim:#58618a;--gold:#8fb0ff;--gold2:#c2d3ff;--vio:#a88bff;--red:#e5484d;--blue:#4d7cf0;--green:#4cc38a;--sh:0 1px 0 rgba(255,255,255,.03) inset,0 10px 30px rgba(0,0,0,.25)}
 :root[data-theme="light"]{--bg:#f2f4fa;--bg2:#e9edf7;--card:#ffffff;--s1:#f4f6fc;--s2:#edf0f8;--hov:#e6ebf7;--line:#e0e5f1;--line2:#cfd6e8;--txt:#141a2e;--mut:#626b88;--dim:#98a0bb;--gold:#3d63e0;--gold2:#2b4cc0;--vio:#7a55e8;--sh:0 1px 2px rgba(16,24,40,.04),0 8px 24px rgba(16,24,40,.06)}
@@ -416,6 +417,106 @@ body.vteam .rank{display:none}
  .head{padding:18px;gap:14px}.head h1{font-size:19px}.hlogo{width:72px;height:72px}.head p{display:none}
  .ms{grid-template-columns:repeat(2,1fr)}
 }
+/* ===== NEO (cobalt) ===== */
+:root{--bg:#050914;--bg2:#08101f;--card:rgba(11,18,36,.86);--s1:#0e1730;--s2:#091024;--hov:#13204a;--line:#18244a;--line2:#25396f;--txt:#eaf1ff;--mut:#8698c6;--dim:#50608c;--gold:#5aa6ff;--gold2:#a5ccff;--cy:#3fdcf7;--sh:0 10px 30px rgba(0,8,30,.35)}
+:root[data-theme="light"]{--bg:#eef3fb;--bg2:#e4ecf8;--card:#ffffff;--s1:#f3f7fd;--s2:#eaf1fb;--hov:#e3ecfa;--line:#dbe5f3;--line2:#c3d3ea;--txt:#0d1a33;--mut:#5a6a8c;--dim:#97a5c2;--gold:#2563eb;--gold2:#1d4ed8;--cy:#0891b2;--sh:0 6px 20px rgba(30,64,140,.08)}
+body{font-family:'Pretendard','Noto Sans KR',sans-serif;letter-spacing:-.012em}
+body:before{background:radial-gradient(900px 500px at 75% -180px,rgba(56,120,255,.20),transparent 70%),radial-gradient(700px 420px at -5% 30%,rgba(63,220,247,.07),transparent 70%),linear-gradient(rgba(90,140,255,.035) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(90,140,255,.035) 1px,transparent 1px) 0 0/44px 44px!important}
+:root[data-theme="light"] body:before{background:radial-gradient(900px 500px at 75% -180px,rgba(56,120,255,.12),transparent 70%),linear-gradient(rgba(37,99,235,.05) 1px,transparent 1px) 0 0/44px 44px,linear-gradient(90deg,rgba(37,99,235,.05) 1px,transparent 1px) 0 0/44px 44px!important}
+.card{border-radius:20px;border-color:var(--line);background:var(--card);box-shadow:var(--sh)}
+.wrap{grid-template-columns:232px minmax(0,1fr) 250px;gap:18px;padding:22px}
+.side{padding:18px}
+.side .stat{background:transparent;border:1px solid var(--line);border-radius:14px}
+.brand{font-size:18px}.blogo{box-shadow:0 0 0 2px rgba(90,166,255,.45),0 0 18px rgba(63,220,247,.35)}
+.seg{background:var(--s2);border-color:var(--line);border-radius:11px}
+.seg button{border-radius:8px}
+.seg button.on{background:linear-gradient(135deg,#2f6bff,#1fb5e8);color:#fff;box-shadow:0 4px 14px rgba(47,107,255,.35)}
+.seg button.on.rv{color:#fff}
+/* compact hero */
+.head{padding:16px 22px;gap:16px;background:linear-gradient(110deg,rgba(37,90,230,.30),rgba(11,18,36,.9) 50%,rgba(31,181,232,.16))!important;border-color:var(--line2)}
+:root[data-theme="light"] .head{background:linear-gradient(110deg,#dbe8ff,#fff 55%,#dff6fd)!important}
+.head:after{display:none}
+.hlogo{width:62px;height:62px;animation:none;box-shadow:0 0 0 2px rgba(90,166,255,.5),0 0 26px rgba(47,107,255,.5)}
+.head h1{font-size:24px;margin:2px 0;background:linear-gradient(90deg,#fff,#a5ccff 55%,#6ee7ff)!important;-webkit-background-clip:text!important;background-clip:text!important}
+:root[data-theme="light"] .head h1{background:linear-gradient(90deg,#0d1a33,#2563eb)!important;-webkit-background-clip:text!important;background-clip:text!important}
+.head h1 em{border-color:rgba(90,166,255,.45);background:rgba(90,166,255,.1)}
+.head p,.eyebrow{display:none}.han{font-size:11px;letter-spacing:.3em;color:var(--gold2)}
+.tools{background:transparent;border:0;box-shadow:none;padding:0;gap:10px}
+.tools input{background:var(--card);border-color:var(--line);border-radius:14px;padding:13px 16px;font-size:13px}
+.vtabs{background:var(--card);border-color:var(--line);border-radius:14px;padding:4px}
+.vtabs button{padding:9px 16px;border-radius:10px}
+.vtabs button.on{background:linear-gradient(135deg,#2f6bff,#1fb5e8);color:#fff;box-shadow:0 4px 14px rgba(47,107,255,.35)}
+/* tier selector */
+.st3 .lbl{margin-bottom:9px}
+.tnav{gap:6px}
+.tnav a{position:relative;padding:11px 12px 11px 16px;border-radius:12px;background:var(--s2);border:1px solid var(--line);color:var(--txt);overflow:hidden;transition:all .15s}
+.tnav a:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--tc)}
+.tnav a i{display:none}
+.tnav a span{font-weight:700;color:var(--mut);background:var(--s1);border-radius:999px;padding:2px 8px;font-size:10.5px}
+.tnav a:hover{border-color:var(--line2);background:var(--hov)}
+.tnav a.on{border-color:var(--tc);background:linear-gradient(90deg,color-mix(in srgb,var(--tc) 22%,transparent),color-mix(in srgb,var(--tc) 4%,transparent));box-shadow:0 0 0 1px color-mix(in srgb,var(--tc) 40%,transparent),0 6px 18px color-mix(in srgb,var(--tc) 18%,transparent)}
+.tnav a.on b{color:var(--tc)}
+.tnav a.on span{background:var(--tc);color:#08101f}
+/* tier panel */
+.tsel{overflow:visible}
+.tsh{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:20px 22px 4px}
+.tsh h2{margin:0;font-size:26px;font-weight:900;letter-spacing:-.03em;color:var(--tc);display:flex;align-items:center;gap:10px}
+.tsh h2 small{font-size:11px;font-weight:700;color:var(--mut);padding:4px 9px;border-radius:8px;background:var(--s1);border:1px solid var(--line);letter-spacing:0}
+.tsh .tsub{color:var(--mut);font-size:12px;margin-top:6px}
+.tsh .tstat{display:flex;gap:18px}
+.tsh .tstat div{text-align:right}.tsh .tstat span{display:block;font-size:10.5px;color:var(--dim)}.tsh .tstat b{font-size:17px;font-variant-numeric:tabular-nums}
+.pgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:16px 18px 20px}
+.pc{position:relative;background:linear-gradient(170deg,color-mix(in srgb,var(--tc) 9%,var(--s1)),var(--s2) 70%);border:1px solid var(--line);border-radius:18px;padding:16px 16px 14px;cursor:pointer;overflow:hidden;transition:transform .18s,border-color .18s,box-shadow .18s}
+.pc:before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--tc),transparent)}
+.pc:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--tc) 55%,var(--line2));box-shadow:0 14px 32px rgba(10,40,120,.28)}
+.pc.no{opacity:.55}
+.pc .ph{display:flex;align-items:center;gap:11px}
+.pc .av{flex:none;width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:17px;color:var(--tc);background:color-mix(in srgb,var(--tc) 14%,var(--s2));border:1px solid color-mix(in srgb,var(--tc) 40%,transparent)}
+.pc .pn{min-width:0;flex:1}
+.pc .pn b{display:block;font-size:15.5px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pc .pn span{display:block;font-size:11px;color:var(--mut);margin-top:3px}
+.pc .pn span em{font-style:normal;color:var(--gold2);font-weight:700}
+:root[data-theme="light"] .pc .pn span em{color:var(--gold)}
+.pc .rkb{align-self:flex-start;font-size:11px;font-weight:900;color:var(--mut);background:var(--s2);border:1px solid var(--line);border-radius:8px;padding:3px 7px;font-variant-numeric:tabular-nums}
+.pc .rkb.t1{color:#08101f;background:linear-gradient(135deg,#6ee7ff,#5aa6ff);border-color:transparent}
+.pc .ps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:14px 0 10px}
+.pc .ps div{background:color-mix(in srgb,var(--s2) 70%,transparent);border:1px solid var(--line);border-radius:11px;padding:8px 6px;text-align:center}
+.pc .ps span{display:block;font-size:10px;color:var(--dim);margin-bottom:3px}
+.pc .ps b{font-size:16px;font-weight:900;font-variant-numeric:tabular-nums}
+.pc .ps .hl b{background:linear-gradient(90deg,#7cc0ff,#6ee7ff);-webkit-background-clip:text;background-clip:text;color:transparent}
+:root[data-theme="light"] .pc .ps .hl b{background:none;color:var(--gold)}
+.pc .wrbar{height:5px;border-radius:9px;background:var(--s2);overflow:hidden;border:1px solid var(--line)}
+.pc .wrbar b{display:block;height:100%;border-radius:9px;background:linear-gradient(90deg,#2f6bff,#3fdcf7)}
+.pc .rec{display:flex;gap:3px;margin-top:10px;min-height:8px}
+.pc .rec i{flex:1;max-width:22px;height:8px;border-radius:3px;position:relative}
+.pc .rec i.w{background:linear-gradient(90deg,#3d7bff,#3fdcf7)}
+.pc .rec i.l{background:color-mix(in srgb,#ef5a64 55%,var(--s2))}
+.pc .rec i:hover:after{content:attr(data-t);position:absolute;bottom:calc(100% + 6px);left:50%;transform:translateX(-50%);white-space:nowrap;background:#000;color:#fff;font-size:11px;padding:5px 8px;border-radius:6px;z-index:5;pointer-events:none}
+.pc .pf{display:flex;justify-content:space-between;margin-top:10px;font-size:11px;color:var(--mut)}
+.pc .pf b{color:var(--txt);font-weight:700}
+.pc .pe{margin:16px 0 4px;padding:14px;border:1px dashed var(--line2);border-radius:12px;text-align:center;color:var(--dim);font-size:12px}
+/* rank rail */
+.ri{background:transparent;border:0;border-bottom:1px solid var(--line);border-radius:0;margin:0;padding:10px 4px}
+.ri:hover{background:var(--hov);border-radius:10px}
+.ri .n{border-radius:9px}
+.ri:nth-child(-n+3) .n{background:linear-gradient(135deg,#2f6bff,#1fb5e8);color:#fff;border-color:transparent}
+.ri .p{color:var(--gold2)}
+:root[data-theme="light"] .ri .p{color:var(--gold)}
+.btn{border-radius:11px}
+.btn.pri{background:linear-gradient(135deg,#2f6bff,#1fb5e8);border-color:transparent}
+.wbar i b{background:linear-gradient(90deg,#2f6bff,#3fdcf7)}
+@media (max-width:1280px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:820px){
+ .wrap{grid-template-columns:minmax(0,1fr)}
+ .side .st3{display:block;grid-column:1/-1}
+ .tnav{display:flex;overflow-x:auto;gap:6px;padding-bottom:4px}
+ .tnav a{flex:none;padding:9px 12px 9px 14px}
+ .tsh{flex-direction:column;align-items:flex-start;padding:16px 16px 0}
+ .tsh .tstat{gap:14px}
+ .tsh .tstat div{text-align:left}
+ .pgrid{grid-template-columns:minmax(0,1fr);padding:12px}
+}
+@media (min-width:521px) and (max-width:820px){.pgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -441,7 +542,7 @@ body.vteam .rank{display:none}
    <div class="lbl">전체 순위 보기</div>
    <div class="seg seg4" id="rview"><button data-rv="wr">승률순</button><button data-rv="kd">KD순</button><button data-rv="k">전체 킬순</button><button data-rv="g">참여순</button></div>
   </div>
-  <div class="stat st3"><div class="lbl">티어 바로가기</div><div class="tnav" id="tnav"></div></div>
+  <div class="stat st3"><div class="lbl">티어 선택</div><div class="tnav" id="tnav"></div></div>
   <div class="stat abox st5">
    <div class="lbl">관리자</div>
    <div class="noadm" style="display:block"><button class="btn wide pri" id="loginBtn" style="margin:0">관리자 로그인</button></div>
@@ -518,8 +619,8 @@ function rSide(){
  var m=M[MODE];$('sSeason').textContent=D.season||'-';$('sMem').textContent=m.list.length+'명';$('sGames').textContent=m.games.length+'경기';
  $('sLast').textContent=m.games[0]?gDate(m.games[0]).join(' '):'-';$('sAt').textContent=(D.at||'')+' 기준';
  $('modeTag').textContent={base:'일반',dk:'대꼴룰',kd:'킬딜내기',all:'통합'}[MODE];
- var cnt={};m.list.forEach(function(p){cnt[p.t]=(cnt[p.t]||0)+1});
- $('tnav').innerHTML=order(cnt).map(function(t){return '<a href="#t_'+encodeURIComponent(t)+'" data-go="'+esc(t)+'"><b><i style="background:'+tc(t)+'"></i>'+esc(t)+'</b><span>'+cnt[t]+'</span></a>'}).join('');
+ var cnt={};m.list.forEach(function(p){cnt[p.t]=(cnt[p.t]||0)+1});var ts=order(cnt);if(!TSEL||!cnt[TSEL])TSEL=ts[0]||'';
+ $('tnav').innerHTML=ts.map(function(t){return '<a href="#" class="'+(VIEW=='tier'&&!Q&&t==TSEL?'on':'')+'" style="--tc:'+tc(t)+'" data-go="'+esc(t)+'"><b>'+esc(t)+'</b><span>'+cnt[t]+'</span></a>'}).join('');
 }
 function order(cnt){return TIERS.filter(function(t){return cnt[t]}).concat(Object.keys(cnt).filter(function(t){return TIERS.indexOf(t)<0}))}
 function rRank(){
@@ -532,22 +633,26 @@ function rRank(){
 
 // ---------- tier board ----------
 function chips(p,n){var h=p.h.slice(0,n),o='';h.forEach(function(x){var d=gDate(x.g);o+='<span class="chip '+(x.w?'W':'L')+'" data-t="'+esc(d[0]+' '+d[1]+' · '+(x.g.r||'')+' · '+x.k+'킬')+'">'+(x.w?'W':'L')+'</span>'});return o}
+var TSEL='';
+function pCard(p,i,showT){var c=tc(p.t),init=esc(Array.from(p.n)[0]||'?');
+ var rec=p.h.slice(0,12).map(function(x){var d=gDate(x.g);return '<i class="'+(x.w?'w':'l')+'" data-t="'+esc(d[0]+' '+d[1]+' · '+(x.g.r||'')+' · '+x.k+'킬'+(x.w?' · 승':''))+'"></i>'}).join('');
+ return '<div class="pc'+(p.g?'':' no')+'" data-p="'+esc(p.n)+'" style="--tc:'+c+'"><div class="ph"><div class="av">'+init+'</div><div class="pn"><b>'+esc(p.n)+'</b><span>'+(showT?esc(p.t)+' · ':'')+(p.g?'승률 <em>'+p.r_wr+'위</em> · KD <em>'+p.r_kd+'위</em>':'기록 없음')+'</span></div>'+(showT?'':'<div class="rkb'+(i==0&&p.g?' t1':'')+'">#'+(i+1)+'</div>')+'</div>'+
+  (p.g?'<div class="ps"><div><span>승률</span><b>'+pct(p.wr)+'</b></div><div class="hl"><span>평균 KD</span><b>'+f2(p.kd)+'</b></div><div><span>전체 킬</span><b>'+p.k+'</b></div></div><div class="wrbar"><b style="width:'+Math.max(2,Math.round(p.wr*100))+'%"></b></div><div class="rec">'+rec+'</div><div class="pf"><span><b>'+p.g+'</b>전 '+p.w+'승 '+p.l+'패</span><span>최고 <b>'+p.best+'</b>킬</span></div>':'<div class="pe">아직 참여한 경기가 없어요</div>')+'</div>'}
 function rTier(){
- var m=M[MODE];var groups={};
- m.list.forEach(function(p){if(Q&&p.n.toLowerCase().indexOf(Q)<0)return;(groups[p.t]=groups[p.t]||[]).push(p)});
- var cnt={};Object.keys(groups).forEach(function(t){cnt[t]=groups[t].length});
- var ts=order(cnt);if(!ts.length){$('board').innerHTML='<div class="card empty">'+(Q?'검색 결과가 없어요':'기록이 없어요')+'</div>';return}
- $('board').innerHTML=ts.map(function(t){
-  var ps=groups[t].sort(function(a,b){return (b.g?1:0)-(a.g?1:0)||b.kd-a.kd||b.wr-a.wr||a.n.localeCompare(b.n)});
-  var rec=ps.filter(function(p){return p.g}).length,c=tc(t),pen=ps[0].pen;
-  return '<section class="card tier" id="t_'+esc(t)+'"><div class="th" style="background:linear-gradient(90deg,color-mix(in srgb,'+c+' 15%,transparent),transparent 60%);box-shadow:inset 3px 0 0 '+c+'"><h2 style="color:'+c+'">'+esc(t)+(pen!==''&&pen!=null&&String(pen)!='0'?'<small>핸디 '+(Number(pen)>0?'+':'')+esc(pen)+'</small>':'')+'</h2><span class="cnt">'+ps.length+'명 · 기록 '+rec+'명</span></div><div class="list">'+
-   ps.map(function(p){return '<div class="pl '+(p.g?'':'no')+'" data-p="'+esc(p.n)+'"><div class="nm"><b>'+esc(p.n)+'</b>'+(p.g?'<span class="rk">승률 <em>'+p.r_wr+'위</em> · KD <em>'+p.r_kd+'위</em></span>':'<span class="rk">기록 없음</span>')+'</div>'+
-    '<div class="chips">'+(p.g?chips(p,CHIPN):'<span class="nochip">아직 참여한 경기가 없어요</span>')+'</div>'+
-    '<div class="nums"><div class="num m"><span>참여</span>'+p.g+'</div><div class="num"><span>승률</span>'+(p.g?pct(p.wr):'-')+'</div><div class="num hl"><span>평균 KD</span>'+(p.g?f2(p.kd):'-')+'</div><div class="num m"><span>전체 킬</span>'+p.k+'</div></div></div>'}).join('')+
-   '</div></section>'}).join('');
+ var m=M[MODE];var groups={};m.list.forEach(function(p){(groups[p.t]=groups[p.t]||[]).push(p)});
+ var cnt={};Object.keys(groups).forEach(function(t){cnt[t]=groups[t].length});var ts=order(cnt);
+ if(!ts.length){$('board').innerHTML='<div class="card empty">기록이 없어요</div>';return}
+ if(!TSEL||!cnt[TSEL])TSEL=ts[0];
+ var srt=function(a,b){return (b.g?1:0)-(a.g?1:0)||b.kd-a.kd||b.wr-a.wr||a.n.localeCompare(b.n)};
+ var ps,h;
+ if(Q){ps=m.list.filter(function(p){return p.n.toLowerCase().indexOf(Q)>=0}).sort(srt);
+  h='<div class="tsh" style="--tc:var(--gold)"><div><h2>검색 결과</h2><div class="tsub">“'+esc(Q)+'” · '+ps.length+'명</div></div></div>';}
+ else{ps=groups[TSEL].slice().sort(srt);var rp=ps.filter(function(p){return p.g}),pen=ps[0].pen;
+  var g=rp.reduce(function(s,p){return s+p.g},0),w=rp.reduce(function(s,p){return s+p.w},0),k=rp.reduce(function(s,p){return s+p.k},0);
+  h='<div class="tsh" style="--tc:'+tc(TSEL)+'"><div><h2>'+esc(TSEL)+(pen!==''&&pen!=null&&String(pen)!='0'?'<small>핸디 '+(Number(pen)>0?'+':'')+esc(pen)+'</small>':'')+'</h2><div class="tsub">'+ps.length+'명 · 기록 있는 멤버 '+rp.length+'명</div></div>'+
+   '<div class="tstat"><div><span>티어 평균 KD</span><b>'+(g?f2(k/g):'-')+'</b></div><div><span>티어 승률</span><b>'+(g?pct(w/g):'-')+'</b></div><div><span>총 참여</span><b>'+g+'</b></div></div></div>';}
+ $('board').innerHTML='<section class="card tier tsel">'+h+(ps.length?'<div class="pgrid">'+ps.map(function(p,i){return pCard(p,i,!!Q)}).join('')+'</div>':'<div class="empty">검색 결과가 없어요</div>')+'</section>';
 }
-
-// ---------- games ----------
 function gDetail(g,me){
  if(!g.d||!g.d.length){var ps=g.p.slice().sort(function(a,b){return (b[2]-a[2])||(b[1]-a[1])});return '<div class="gnote">이 경기는 팀·다이·치킨 정보가 저장되기 전 기록이라 킬만 보여요</div><div class="gl">'+ps.map(function(x){return '<div class="gp '+(x[2]?'w':'')+(me&&x[0]==me?' me':'')+'" data-p="'+esc(x[0])+'">'+(x[2]?'🍗 ':'')+esc(x[0])+'<b>'+x[1]+'</b></div>'}).join('')+'</div>'}
  var ts=g.d.slice().sort(function(a,b){return (a.rk-b.rk)||(a.no-b.no)});var any=ts.some(function(t){return t.s!==0});var deal=ts.some(function(t){return t.m.some(function(x){return x[4]})});
@@ -779,7 +884,7 @@ document.addEventListener('click',function(e){var t;
  if(t=e.target.closest('[data-adel]')){if(confirm(t.dataset.adel+' 계정을 삭제할까요?'))post('delAccount',{id:t.dataset.adel},function(r){if(!r.ok)alert(r.msg);loadAccts()});return}
  if(teamClick(e))return;
  if(t=e.target.closest('[data-rule]')){RULE=t.dataset.rule;GLIM=25;rGames();return}
- if(t=e.target.closest('[data-go]')){e.preventDefault();if(VIEW!='tier'){VIEW='tier';sel('#vtabs button',document.querySelector('#vtabs [data-v=tier]'));rTier()}var el=document.getElementById('t_'+t.dataset.go);if(el)el.scrollIntoView({behavior:'smooth'});return}
+ if(t=e.target.closest('[data-go]')){e.preventDefault();TSEL=t.dataset.go;Q='';if($('q'))$('q').value='';if(VIEW!='tier'){VIEW='tier';sel('#vtabs button',document.querySelector('#vtabs [data-v=tier]'))}render();window.scrollTo({top:0,behavior:'smooth'});return}
  if(e.target.id=='more'){GLIM+=25;rGames();return}
  if(t=e.target.closest('.hi[data-hi]')){var pw=t.parentNode,hd=pw.querySelector('.hd'),pn=$('md').dataset.pn,pp=M[MODE].P[pn];if(pw.classList.toggle('open')&&pp&&!hd.innerHTML)hd.innerHTML=gDetail(pp.h[+t.dataset.hi].g,pn);return}
  if(t=e.target.closest('[data-p]')){openP(t.dataset.p);return}
